@@ -1,0 +1,50 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-4 text-gradient font-weight-bold mb-2">Daily Reminders</h1>
+            {% if senior %}
+                <p class="text-main font-weight-bold">For: <span class="text-primary">{{ senior.fullname }}</span></p>
+            {% endif %}
+            <p class="text-muted font-weight-bold">Schedule of activities and notifications for today.</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10 mb-5">
+            {% if reminders %}
+                <div class="row">
+                    {% for r in reminders %}
+                    <div class="col-md-6 mb-4">
+                        <div class="glass-card shadow-sm h-100 transform-hover" style="border-left: 5px solid var(--primary);">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h4 class="text-main font-weight-bold mb-0">{{ r.title }}</h4>
+                                <div class="p-2 rounded-circle" style="background: rgba(13, 148, 136, 0.05);">
+                                    <i class="icon-bell text-primary"></i>
+                                </div>
+                            </div>
+                            <p class="text-muted small font-weight-bold mb-4">{{ r.description }}</p>
+                            <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill shadow-sm" style="background: white; border: 1px solid rgba(0,0,0,0.05);">
+                                <i class="icon-clock-o text-primary mr-2"></i>
+                                <span class="text-main font-weight-bold small">{{ r.reminder_time }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="glass-card text-center py-5">
+                    <i class="icon-calendar-check-o text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.1;"></i>
+                    <h4 class="text-main font-weight-bold">All Caught Up!</h4>
+                    <p class="text-muted">No reminders scheduled for the rest of today.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

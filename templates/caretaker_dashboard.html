@@ -1,0 +1,46 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-4 text-gradient font-weight-bold mb-3">Caretaker Portal</h2>
+                    <p class="text-muted">Direct oversight and health status for your assigned senior citizen.</p>
+                </div>
+            </div>
+
+            <div class="glass-card text-center py-5">
+                {% if senior %}
+                    <div class="mb-4 d-inline-block p-4 rounded-circle" style="background: rgba(23, 162, 184, 0.1); border: 1px solid var(--glass-border);">
+                        <i class="icon-user-md text-info" style="font-size: 4rem;"></i>
+                    </div>
+                    <h5 class="text-muted text-uppercase mb-2" style="letter-spacing: 2px;">Currently Assigned To</h5>
+                    <h2 class="text-white mb-4 display-4 font-weight-bold">{{ senior.fullname }}</h2>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <p class="text-white-50 mb-5">You are currently responsible for monitoring vital signs, medication schedules, and daily routines for this senior citizen.</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="{% url 'senior_details' %}" class="modern-btn mr-3"><i class="icon-heartbeat mr-2"></i> Update Vitals</a>
+                                <a href="{% url 'view_reports' %}" class="btn btn-outline-light px-5 py-3" style="border-radius: 50px;"><i class="icon-file-text mr-2"></i> View Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="py-5">
+                        <i class="icon-warning text-warning mb-4" style="font-size: 5rem;"></i>
+                        <h3 class="text-white mb-3">No Senior Assigned</h3>
+                        <p class="text-muted px-lg-5">Assignments are managed by the administration. Please contact the office if you believe this is an error or to receive your first assignment.</p>
+                        <a href="{% url 'home' %}" class="btn btn-outline-info px-5 py-2 mt-4" style="border-radius: 50px;">Return Home</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

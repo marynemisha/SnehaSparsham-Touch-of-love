@@ -1,0 +1,73 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="glass-card shadow-lg p-0 overflow-hidden">
+                <!-- Profile Header -->
+                <div class="text-center py-5 border-bottom" style="background: rgba(13, 148, 136, 0.02); border-bottom-color: rgba(0,0,0,0.05) !important;">
+                    <div class="position-relative d-inline-block">
+                        {% if caretaker_user.profile %}
+                            <img src="{{ caretaker_user.profile.url }}" alt="Profile" class="rounded-circle border border-primary shadow-sm" style="width: 150px; height: 150px; object-fit: cover; border-width: 4px !important;">
+                        {% else %}
+                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border border-primary shadow-sm mx-auto" style="width: 150px; height: 150px; border-width: 4px !important;">
+                                <i class="icon-user text-muted" style="font-size: 5rem; opacity: 0.3;"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h2 class="text-gradient display-4 font-weight-bold mt-4 mb-2">{{ caretaker_user.fullname }}</h2>
+                    <span class="badge badge-primary px-4 py-2" style="border-radius: 12px; font-size: 0.9rem; font-weight: 600;">{{ caretaker_details.care_type|default:"Expert Caretaker" }}</span>
+                </div>
+
+                <!-- Info Body -->
+                <div class="p-5">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-3"><i class="icon-phone mr-2 text-primary"></i> Contact Info</h6>
+                                <p class="text-main font-weight-bold mb-1">{{ caretaker_user.phone|default:"- " }}</p>
+                                <p class="text-muted small mb-0">{{ caretaker_user.email }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-3"><i class="icon-star-o mr-2 text-primary"></i> Professional info</h6>
+                                <p class="text-main font-weight-bold mb-1">{{ caretaker_details.experience|default:"- " }} Years Experience</p>
+                                <p class="text-muted small mb-0 font-weight-bold">Expected Salary: <span class="text-primary">₹ {{ caretaker_details.expected_salary|default:"0.00" }}</span></p>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="p-4 rounded" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <div class="row">
+                                    <div class="col-sm-4 text-center text-sm-left">
+                                        <h6 class="text-muted font-weight-bold small text-uppercase mb-2">Gender</h6>
+                                        <p class="text-main font-weight-bold mb-0">{{ caretaker_details.gender|default:"Not Specified" }}</p>
+                                    </div>
+                                    <div class="col-sm-4 text-center text-sm-left border-left border-light">
+                                        <h6 class="text-muted font-weight-bold small text-uppercase mb-2">Duration</h6>
+                                        <p class="text-main font-weight-bold mb-0">{{ caretaker_details.assigned_duration|default:"TBD" }}</p>
+                                    </div>
+                                    <div class="col-sm-4 text-center text-sm-left border-left border-light">
+                                        <h6 class="text-muted font-weight-bold small text-uppercase mb-2">Location</h6>
+                                        <p class="text-main font-weight-bold mb-0">{{ caretaker_user.address|default:"- " }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="javascript:history.back()" class="modern-btn px-5">
+                            <i class="icon-arrow-left mr-2"></i> Go Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

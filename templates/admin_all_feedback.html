@@ -1,0 +1,58 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card shadow-lg p-0 overflow-hidden">
+                <div class="p-4 p-md-5 d-flex align-items-center justify-content-between" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 rounded-circle mr-4 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: white; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            <i class="icon-star text-warning" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-gradient font-weight-bold mb-1">Feedback for {{ caretaker.fullname }}</h1>
+                            <p class="text-muted font-weight-bold mb-0">Average Rating: <span class="text-primary">⭐ {{ avg_rating }} / 5</span></p>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin_panel' %}" class="btn btn-outline-primary px-4" style="border-radius: 12px; font-weight: 600;">
+                        <i class="icon-arrow-left mr-2"></i> Back to Panel
+                    </a>
+                </div>
+
+                <div class="p-4 p-md-5">
+                    <div class="feedback-list">
+                        {% for f in feedbacks %}
+                            <div class="p-4 rounded mb-3" style="background: white; border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3 p-2 rounded-circle bg-light">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-main font-weight-bold">{{ f.given_by.fullname }}</div>
+                                            <small class="text-muted">{{ f.created_at|date:"M d, Y" }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="badge bg-warning text-dark px-3 py-2" style="border-radius: 8px;">
+                                        ⭐ {{ f.rating }} / 5
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-0" style="font-style: italic;">"{{ f.feedback }}"</p>
+                            </div>
+                        {% empty %}
+                            <div class="text-center py-5">
+                                <i class="icon-frown-o text-muted mb-3" style="font-size: 3rem; opacity: 0.3;"></i>
+                                <h5 class="text-muted">No feedback recorded yet.</h5>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

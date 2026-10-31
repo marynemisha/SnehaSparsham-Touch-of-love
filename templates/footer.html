@@ -1,0 +1,95 @@
+{% load static %}
+
+<footer class="site-footer-premium mt-5">
+  <div class="container-fluid px-lg-5">
+    <div class="glass-card p-4 overflow-hidden position-relative">
+      <div class="row align-items-center">
+        <!-- Brand & Info -->
+        <div class="col-lg-4 text-center text-lg-start mb-4 mb-lg-0">
+          <h5 class="mb-2 text-gradient font-weight-bold" style="font-family: 'Outfit', sans-serif;">Snehasparsham</h5>
+          <p class="text-muted small mb-0" style="opacity: 0.8; letter-spacing: 0.2px;">Premium Care & Compassion for Seniors since 2024.</p>
+        </div>
+
+        <!-- Links -->
+        <div class="col-lg-4 text-center mb-4 mb-lg-0">
+          <ul class="list-inline mb-0 footer-links-minimal">
+            <li class="list-inline-item mx-3"><a href="{% url 'home' %}" class="small text-muted text-decoration-none hover-primary-soft">Home</a></li>
+            <li class="list-inline-item mx-3"><a href="#" class="small text-muted text-decoration-none hover-primary-soft">About</a></li>
+            <li class="list-inline-item mx-3"><a href="#" class="small text-muted text-decoration-none hover-primary-soft">Privacy</a></li>
+            <li class="list-inline-item mx-3"><a href="#" class="small text-muted text-decoration-none hover-primary-soft">Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Social & Copyright -->
+        <div class="col-lg-4 text-center text-lg-end">
+          <div class="d-flex justify-content-center justify-content-lg-end align-items-center gap-3 mb-2">
+            <a href="#" class="social-icon-circle"><i class="icon-facebook"></i></a>
+            <a href="#" class="social-icon-circle"><i class="icon-twitter"></i></a>
+            <a href="#" class="social-icon-circle"><i class="icon-instagram"></i></a>
+          </div>
+          <p class="mb-0 small text-muted" style="font-size: 0.75rem; opacity: 0.6;">&copy; <script>document.write(new Date().getFullYear());</script> Snehasparsham. Touched with Love.</p>
+        </div>
+      </div>
+      
+      <!-- Subtle Decorative Element -->
+      <div class="footer-glow"></div>
+    </div>
+  </div>
+</footer>
+
+</main> <!-- Closing main content opened in header.html -->
+
+<style>
+  .site-footer-premium {
+      padding-bottom: 2rem;
+  }
+  .site-footer-premium .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+  }
+  .footer-links-minimal a {
+      font-weight: 600;
+      transition: color 0.3s ease;
+      color: var(--text-muted) !important;
+  }
+  .hover-primary-soft:hover {
+      color: var(--primary) !important;
+  }
+  .social-icon-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  .social-icon-circle:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+  }
+  .footer-glow {
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(13, 148, 136, 0.05) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+  }
+</style>
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>

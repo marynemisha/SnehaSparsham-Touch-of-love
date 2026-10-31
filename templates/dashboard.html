@@ -1,0 +1,97 @@
+<br><br><br>
+{% include 'header.html' %}
+
+<style>
+    body {
+        background: linear-gradient(to right, #f4f7fa, #e8f0ff);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .welcome-container {
+        max-width: 700px;
+        margin: 80px auto;
+        text-align: center;
+    }
+
+    .welcome-card {
+        background: white;
+        padding: 40px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+
+    .welcome-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .role-badge {
+        display: inline-block;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 10px;
+        background: #0d9488;
+        color: white;
+    }
+
+    .action-btn {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 10px 25px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        color: white;
+        background: linear-gradient(45deg, #28a745, #1e7e34);
+        transition: 0.3s;
+    }
+
+    .action-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(40,167,69,0.4);
+    }
+
+    .admin-btn {
+        background: linear-gradient(45deg, #343a40, #000);
+    }
+
+    .admin-btn:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+</style>
+
+<div class="welcome-container">
+
+    <div class="welcome-card">
+
+        <h2>
+            👋 Welcome, {{ request.user.fullname }}
+        </h2>
+
+        <div class="role-badge">
+            Role: {{ request.user.role|title }}
+        </div>
+
+        {% if request.user.role == "admin" %}
+            <br>
+            <a href="{% url 'admin_dashboard' %}" 
+               class="action-btn admin-btn">
+                🔐 Go to Admin Panel
+            </a>
+        {% endif %}
+
+        {% if request.user.role == "senior" or request.user.role == "caretaker" or request.user.role == "family" %}
+            <br>
+            <a href="{% url 'senior_details' %}" 
+               class="action-btn">
+                👤 View Senior Details
+            </a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% include 'footer.html' %}

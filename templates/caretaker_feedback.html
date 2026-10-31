@@ -1,0 +1,50 @@
+<br><br><br>
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 mb-5">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.1);">
+                        <i class="icon-star text-warning" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="text-gradient font-weight-bold">Share Feedback</h2>
+                    <p class="text-muted small">Help us improve by rating your experience with <span class="text-primary font-weight-bold">{{ caretaker.fullname }}</span></p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase mb-2 d-block">How would you rate their care?</label>
+                        <select name="rating" class="form-control text-main font-weight-bold shadow-sm" style="height: 60px; border-radius: 15px; border: 2px solid rgba(0,0,0,0.05); font-size: 1.1rem;" required>
+                            <option value="" disabled selected>Click to select rating...</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                            <option value="4">⭐⭐⭐⭐ Good</option>
+                            <option value="3">⭐⭐⭐ Average</option>
+                            <option value="2">⭐⭐ Fair</option>
+                            <option value="1">⭐ Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase mb-2 d-block">Your Experience</label>
+                        <textarea name="feedback" class="form-control text-main shadow-sm" rows="5" placeholder="Share specific details about the care provided..." style="border-radius: 15px; border: 2px solid rgba(0,0,0,0.05); padding: 15px;" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block py-3 shadow-lg font-weight-bold" style="border-radius: 15px; background: linear-gradient(135deg, #0d9488 0%, #d97706 100%); border: none; font-size: 1.1rem; transition: all 0.3s ease;">
+                        <i class="icon-send mr-2"></i> Submit My Rating
+                    </button>
+                    <div class="text-center mt-3">
+                        <a href="javascript:history.back()" class="btn btn-link text-muted font-weight-bold small">Go Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include "footer.html" %}

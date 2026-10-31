@@ -1,0 +1,102 @@
+<br><br><br>
+{% include 'header.html' %}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .emergency-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    .emergency-title {
+        color: #c0392b;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .emergency-icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        resize: none;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    textarea:focus {
+        border-color: #e74c3c;
+        outline: none;
+        box-shadow: 0 0 8px rgba(231,76,60,0.3);
+    }
+
+    .emergency-btn {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(45deg, #ff4d4d, #b30000);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .emergency-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 20px rgba(255,0,0,0.4);
+    }
+
+    .warning-text {
+        color: #888;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="emergency-container">
+
+    <div class="emergency-icon">🚨</div>
+    <h2 class="emergency-title">Trigger Emergency Alert</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% if senior %}
+            <input type="hidden" name="senior_id" value="{{ senior.id }}">
+            <div class="alert alert-danger border-0 mb-4" style="border-radius: 10px; background: rgba(220, 38, 38, 0.05);">
+                <span class="text-danger font-weight-bold">Emergency for: {{ senior.fullname }}</span>
+            </div>
+        {% endif %}
+
+        <textarea name="message" rows="4"
+            placeholder="Describe the emergency situation clearly..."
+            required></textarea>
+
+        <button type="submit" class="emergency-btn">
+            🚨 Send Emergency Alert
+        </button>
+
+        <p class="warning-text">
+            This alert will immediately notify the administrator or caretaker.
+        </p>
+    </form>
+
+</div>
+
+{% include 'footer.html' %}

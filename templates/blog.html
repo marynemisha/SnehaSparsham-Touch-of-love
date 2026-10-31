@@ -1,0 +1,52 @@
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-3 text-gradient font-weight-bold mb-3">Blog & Updates</h1>
+            <p class="lead text-muted font-weight-bold">Stay informed with the latest insights in elderly care and health.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="glass-card h-100 shadow-sm transform-hover">
+                <img src="{% static 'images/img_1.jpg' %}" class="img-fluid rounded mb-3" alt="Blog">
+                <div class="p-3">
+                    <small class="text-primary font-weight-bold">July 23, 2020</small>
+                    <h4 class="text-main font-weight-bold my-3">Providing Quality Care</h4>
+                    <p class="text-muted small mb-4">Discover the best practices for maintaining senior wellness and happiness.</p>
+                    <button class="modern-btn btn-sm">Read More</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="glass-card h-100 shadow-sm transform-hover">
+                <img src="{% static 'images/img_2.jpg' %}" class="img-fluid rounded mb-3" alt="Blog">
+                <div class="p-3">
+                    <small class="text-primary font-weight-bold">July 25, 2020</small>
+                    <h4 class="text-main font-weight-bold my-3">Nutrition & Wellness</h4>
+                    <p class="text-muted small mb-4">A guide to the best dietary habits for seniors in their golden years.</p>
+                    <button class="modern-btn btn-sm">Read More</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="glass-card h-100 shadow-sm transform-hover">
+                <img src="{% static 'images/img_3.jpg' %}" class="img-fluid rounded mb-3" alt="Blog">
+                <div class="p-3">
+                    <small class="text-primary font-weight-bold">July 28, 2020</small>
+                    <h4 class="text-main font-weight-bold my-3">Mental Health Support</h4>
+                    <p class="text-muted small mb-4">Understanding the importance of emotional companionship for the elderly.</p>
+                    <button class="modern-btn btn-sm">Read More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include "footer.html" %}
+</body>
+</html>

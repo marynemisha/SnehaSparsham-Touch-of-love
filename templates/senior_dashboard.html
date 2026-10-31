@@ -1,0 +1,296 @@
+<br><br><br>    
+{% include 'header.html' %}
+{% load static %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #0d9488 0%, #d97706 100%);
+        --danger-gradient: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+        --success-gradient: linear-gradient(135deg, #198754 0%, #146c43 100%);
+        --info-gradient: linear-gradient(135deg, #0dcaf0 0%, #0bacce 100%);
+    }
+
+    body {
+        background: #f0f2f5;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .senior-hero {
+        background: var(--primary-gradient);
+        padding: 80px 0 120px;
+        color: white;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: -60px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 30px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        position: relative;
+        z-index: 2;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .emergency-card {
+        background: rgba(220, 53, 69, 0.05);
+        border: 2px dashed rgba(220, 53, 69, 0.3);
+    }
+
+    .emergency-btn {
+        background: var(--danger-gradient);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 20px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .emergency-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 35px rgba(220, 53, 69, 0.6);
+        color: white;
+    }
+
+    .emergency-btn:active {
+        transform: scale(0.98);
+    }
+
+    .status-badge {
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .bg-primary-soft { background: rgba(13, 148, 136, 0.1); color: #0d9488; }
+    .bg-info-soft { background: rgba(13, 202, 240, 0.1); color: #0dcaf0; }
+    .bg-success-soft { background: rgba(25, 135, 84, 0.1); color: #198754; }
+    .bg-danger-soft { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
+
+    .medicine-item {
+        border-left: 4px solid #0dcaf0;
+        background: rgba(13, 202, 240, 0.03);
+        padding: 15px;
+        border-radius: 0 15px 15px 0;
+        margin-bottom: 12px;
+    }
+
+    .quick-action-btn {
+        border-radius: 18px;
+        padding: 15px;
+        font-weight: 600;
+        transition: all 0.2s;
+        border: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: white;
+        color: #4b5563;
+        width: 100%;
+        text-align: left;
+    }
+
+    .quick-action-btn:hover {
+        background: #f9fafb;
+        transform: translateX(5px);
+        color: var(--primary);
+    }
+
+    .profile-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .text-large { font-size: 1.1rem; }
+    .font-bold { font-weight: 700; }
+</style>
+
+<div class="senior-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4 font-bold mb-2">Hello, {{ senior.fullname }}!</h1>
+                <p class="lead opacity-75">Welcome back to your health dashboard. We're here to help you today.</p>
+            </div>
+            <div class="col-md-4 text-md-right text-center mt-4 mt-md-0">
+                {% if senior.profile %}
+                    <img src="{{ senior.profile.url }}" class="profile-img" alt="Profile">
+                {% else %}
+                    <div class="icon-box bg-white text-primary rounded-circle mx-auto mx-md-0" style="width: 80px; height: 80px;">
+                        <i class="icon-user"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row">
+        <!-- Quick Stats/Profile -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card">
+                <div class="icon-box bg-primary-soft">
+                    <i class="icon-heartbeat"></i>
+                </div>
+                <h3 class="font-bold mb-4">Daily Overview</h3>
+                <div class="profile-details">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Blood Group</span>
+                        <span class="badge badge-danger px-3 py-2" style="border-radius: 10px;">{{ senior.blood_group }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Phone</span>
+                        <span class="font-weight-600">{{ senior.phone }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-0">
+                        <span class="text-muted">Assigned Caretaker</span>
+                        {% if assigned_caretaker %}
+                            <div class="d-flex align-items-center">
+                                <a href="{% url 'caretaker_details' assigned_caretaker.id %}" class="btn btn-link p-0 font-weight-bold text-primary mr-3">
+                                    {{ assigned_caretaker.fullname }} <i class="icon-chevron-right small"></i>
+                                </a>
+                                <a href="{% url 'caretaker_feedback' assigned_caretaker.id %}" class="badge badge-warning py-2 px-3" style="border-radius: 8px; cursor: pointer; text-decoration: none;">
+                                    ⭐ Rate
+                                </a>
+                            </div>
+                        {% else %}
+                            <span class="text-muted italic small">Not Assigned</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <hr class="my-4" style="opacity: 0.1;">
+                
+                <h5 class="font-bold mb-3">Quick Actions</h5>
+                <div class="d-flex flex-column gap-2">
+                    <a href="{% url 'view_reports' %}" class="quick-action-btn">
+                        <i class="icon-file-text text-primary"></i> My Health Reports
+                    </a>
+                    <a href="{% url 'daily_reminders' %}" class="quick-action-btn">
+                        <i class="icon-calendar-check-o text-success"></i> Daily Reminders
+                    </a>
+                    <a href="{% url 'diet_monitor' %}" class="quick-action-btn">
+                        <i class="icon-coffee text-warning"></i> Diet Monitoring
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medicine Schedule -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card">
+                <div class="icon-box bg-info-soft">
+                    <i class="icon-medkit"></i>
+                </div>
+                <h3 class="font-bold mb-2">My Medicines</h3>
+                <p class="text-muted mb-4">Don't forget to take your medicine on time!</p>
+                
+                <div class="medicine-list mt-3">
+                    {% for m in medicines %}
+                        <div class="medicine-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="font-bold mb-0">{{ m.medicine_name }}</h6>
+                                <span class="badge badge-info status-badge">{{ m.time }}</span>
+                            </div>
+                            <p class="text-muted small mb-0 mt-1">Dosage: {{ m.dosage }}</p>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-4 bg-light rounded-lg">
+                            <i class="icon-check-circle text-success mb-2" style="font-size: 2rem;"></i>
+                            <p class="text-muted mb-0">All good! No medicines scheduled.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{% url 'view_medicine' %}" class="btn btn-outline-info btn-block" style="border-radius: 15px;">
+                        Full Schedule <i class="icon-long-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mood & Emergency -->
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="glass-card mb-4" style="height: auto;">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="icon-box bg-success-soft mb-0 mr-3">
+                        <i class="icon-smile-o"></i>
+                    </div>
+                    <h3 class="font-bold mb-0">How are you?</h3>
+                </div>
+                
+                <div class="mood-history mb-4">
+                    {% for mood in moods|slice:":3" %}
+                        <div class="d-flex justify-content-between align-items-center mb-2 px-3 py-2 rounded-lg" style="background: rgba(0,0,0,0.02);">
+                            <span class="font-weight-600">{{ mood.mood }}</span>
+                            <span class="text-muted small">{{ mood.created_at|date:"g:i A" }}</span>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted small">Share your mood with us.</p>
+                    {% endfor %}
+                </div>
+                
+                <a href="{% url 'add_mood' %}" class="btn btn-primary btn-block py-3 font-bold" style="border-radius: 15px; background: var(--primary-gradient); border: none;">
+                    Share My Mood Today
+                </a>
+            </div>
+
+            <div class="glass-card emergency-card">
+                <div class="text-center mb-4">
+                    <i class="icon-warning text-danger mb-2" style="font-size: 2.5rem; display: block;"></i>
+                    <h3 class="font-bold text-danger">Need Help?</h3>
+                    <p class="text-muted small">Press the button below if you need urgent assistance.</p>
+                </div>
+                <form action="{% url 'trigger_emergency' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="message" value="Emergency alert triggered from dashboard">
+                    <button type="submit" class="emergency-btn">
+                        <i class="icon-bell"></i> Get Help
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}

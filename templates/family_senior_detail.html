@@ -1,0 +1,134 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <!-- Profile Section -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card shadow-lg p-0 overflow-hidden">
+                <div class="p-4 p-md-5 d-flex align-items-center justify-content-between" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 rounded-circle mr-4 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: white; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            <i class="icon-user text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-gradient font-weight-bold mb-1">{{ senior.fullname }}</h1>
+                            <p class="text-muted font-weight-bold mb-0">Age: {{ senior.age }} | Blood: <span class="text-primary">{{ senior.blood_group }}</span></p>
+                        </div>
+                    </div>
+                    
+                    {% if assigned_caretaker %}
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'caretaker_feedback' assigned_caretaker.id %}" class="btn btn-warning btn-sm px-4 mr-2" style="border-radius: 12px; font-weight: 600;">
+                            <i class="icon-star mr-2"></i> Rate Caretaker
+                        </a>
+                        <a href="{% url 'caretaker_details' assigned_caretaker.id %}" class="modern-btn btn-sm px-4">
+                            <i class="icon-eye mr-2"></i> View Caretaker
+                        </a>
+                    </div>
+                    {% endif %}
+                   
+                </div>
+
+                <div class="p-4 p-md-5">
+                    <div class="row">
+                        <!-- Medicines Section -->
+                        <div class="col-md-4 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-4"><i class="icon-medkit mr-2 text-primary"></i> Current Medications</h6>
+                                {% for med in medicines %}
+                                    <div class="p-3 rounded mb-2" style="background: rgba(13, 148, 136, 0.02); border: 1px solid rgba(0,0,0,0.02);">
+                                        <div class="text-main font-weight-bold small">{{ med.medicine_name }}</div>
+                                        <small class="text-muted font-weight-bold">Dose: {{ med.dosage }}</small>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted small font-italic">No medicines assigned.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Vitals Section -->
+                        <div class="col-md-4 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-4"><i class="icon-heartbeat mr-2 text-primary"></i> Latest Vitals</h6>
+                                {% for vital in vitals %}
+                                    <div class="p-3 rounded mb-2" style="background: rgba(16, 185, 129, 0.02); border: 1px solid rgba(0,0,0,0.02);">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted tiny font-weight-bold">BP</span>
+                                            <span class="text-main font-weight-bold small">{{ vital.blood_pressure }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted tiny font-weight-bold">HR</span>
+                                            <span class="text-main font-weight-bold small">{{ vital.heart_rate }} bpm</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted tiny font-weight-bold">TEMP</span>
+                                            <span class="text-main font-weight-bold small">{{ vital.temperature }}°C</span>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted small font-italic">No vitals recorded.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Mood Section -->
+                        <div class="col-md-4 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-4"><i class="icon-smile-o mr-2 text-primary"></i> Mood Updates</h6>
+                                {% for mood in moods %}
+                                    <div class="p-3 rounded mb-2 d-flex justify-content-between align-items-center" style="background: rgba(245, 158, 11, 0.02); border: 1px solid rgba(0,0,0,0.02);">
+                                        <div class="text-main font-weight-bold small">{{ mood.mood }}</div>
+                                        <small class="text-muted tiny font-weight-bold">{{ mood.created_at|date:"M d, H:i" }}</small>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted small font-italic">No mood updates.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div> <!-- Added closing div for row -->
+
+                    <!-- New Sections Row -->
+                    <div class="row pt-4 mt-4" style="border-top: 1px solid rgba(0,0,0,0.05);">
+                        <!-- Medicine History -->
+                        <div class="col-md-6 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-4"><i class="icon-calendar-check-o mr-2 text-primary"></i> Recent Medicine Log</h6>
+                                {% for med in medicine_history %}
+                                    <div class="p-3 rounded mb-2 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.02); border: 1px solid rgba(0,0,0,0.02);">
+                                        <div>
+                                            <div class="text-main font-weight-bold small">{{ med.medicine_name }}</div>
+                                            <small class="badge badge-success px-2" style="font-size: 0.6rem; border-radius: 10px;">{{ med.status }}</small>
+                                        </div>
+                                        <small class="text-muted tiny font-weight-bold">{{ med.created_at|date:"M d, H:i" }}</small>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted small font-italic">No medicine history.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Care Reports -->
+                        <div class="col-md-6 mb-4">
+                            <div class="p-4 rounded h-100" style="background: white; border: 1px solid rgba(0, 0, 0, 0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                                <h6 class="text-muted font-weight-bold small text-uppercase mb-4"><i class="icon-file-text mr-2 text-primary"></i> Care Reports & Alerts</h6>
+                                {% for report in reports %}
+                                    <div class="p-3 rounded mb-2" style="background: rgba(239, 68, 68, 0.02); border: 1px solid rgba(239, 68, 68, 0.05);">
+                                        <div class="text-main font-weight-bold small mb-1">{{ report.title }}</div>
+                                        <p class="text-muted tiny mb-0">{{ report.description|truncatechars:100 }}</p>
+                                        <small class="text-muted tiny font-weight-bold d-block mt-1">{{ report.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted small font-italic">No reports recorded.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

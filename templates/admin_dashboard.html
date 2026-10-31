@@ -1,0 +1,158 @@
+<br><br><br>  <br><br><br>   
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h2 class="display-4 text-gradient font-weight-bold mb-3">Admin Dashboard</h2>
+            <p class="text-muted">Real-time overview of care operations and family management.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- ================= FAMILY MEMBERS ================= -->
+        <div class="col-lg-8 mb-4">
+            <div class="glass-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="text-main font-weight-bold mb-0"><i class="icon-users mr-2 text-primary"></i> Family Members</h4>
+                    <span class="badge badge-primary px-3 py-2" style="border-radius: 12px; font-weight: 600;">{{ families|length }} Total</span>
+                </div>
+                
+                <div class="table-responsive">
+                    {% if families %}
+                        <table class="table light-table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for f in families %}
+                                <tr>
+                                    <td class="font-weight-bold">{{ f.fullname }}</td>
+                                    <td>
+                                        {% if f.status == "approved" %}
+                                            <span class="badge badge-success px-3" style="border-radius: 8px;"><i class="icon-check-circle mr-1"></i> Approved</span>
+                                        {% else %}
+                                            <span class="badge badge-warning px-3" style="border-radius: 8px;"><i class="icon-clock-o mr-1"></i> Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-right">
+                                        {% if f.status != "approved" %}
+                                            <a href="{% url 'approve_family' f.id %}" 
+                                               class="modern-btn py-1 px-3" style="font-size: 0.75rem;">
+                                               Approve
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted font-weight-bold small">Verified</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="icon-users text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.2;"></i>
+                            <p class="text-muted">No family members found.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= STATS / ALERTS SIDEBAR ================= -->
+        <div class="col-lg-4">
+            <!-- EMERGENCY ALERTS -->
+            <div class="glass-card border-danger mb-4" style="border-left: 5px solid #ef4444 !important;">
+                <h5 class="text-danger font-weight-bold mb-3"><i class="icon-bell mr-2"></i> Emergency Alerts</h5>
+                {% if alerts %}
+                    {% for alert in alerts %}
+                        <div class="mb-3 p-3 rounded" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.1);">
+                            <div class="d-flex justify-content-between mb-1">
+                                <strong class="text-main small">{{ alert.senior.fullname }}</strong>
+                                <small class="text-muted" style="font-size: 0.7rem;">{{ alert.created_at|timesince }} ago</small>
+                            </div>
+                            <p class="text-muted small mb-0">{{ alert.message }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4 bg-light rounded" style="opacity: 0.6;">
+                        <p class="text-muted small mb-0">No active emergencies</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- MEDICINE STOCK -->
+            <div class="glass-card border-warning mb-4" style="border-left: 5px solid #f59e0b !important;">
+                <h5 class="text-warning font-weight-bold mb-3"><i class="icon-medkit mr-2"></i> Stock Alerts</h5>
+                {% if low_stocks %}
+                    {% for stock in low_stocks %}
+                        <div class="mb-2 p-3 rounded" style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.1);">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-main font-weight-bold small">{{ stock.medicine_name }}</span>
+                                <span class="badge badge-warning font-weight-bold px-2" style="border-radius: 6px;">{{ stock.quantity }} left</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4 bg-light rounded" style="opacity: 0.6;">
+                        <p class="text-muted small mb-0">All stocks sufficient</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="glass-card shadow-sm border-0">
+                <h5 class="text-main font-weight-bold mb-3">Quick Actions</h5>
+                <a href="{% url 'add_report' %}" class="btn btn-block mb-3 py-2 text-primary font-weight-bold" style="border: 2px solid rgba(13, 148, 136, 0.1); border-radius: 12px; background: rgba(13, 148, 136, 0.02);">+ Create Report</a>
+                <a href="{% url 'add_medicine' %}" class="btn btn-block mb-3 py-2 text-warning font-weight-bold" style="border: 2px solid rgba(217, 119, 6, 0.1); border-radius: 12px; background: rgba(217, 119, 6, 0.02);">+ Add Medicine</a>
+                <a href="{% url 'manage_leave' %}" class="btn btn-block py-2 text-secondary font-weight-bold" style="border: 2px solid rgba(0, 0, 0, 0.05); border-radius: 12px; background: rgba(0, 0, 0, 0.01);">Manage Leave</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= REPORTS SECTION ================= -->
+    <div class="row mt-4">
+        <div class="col-12 text-main">
+            <div class="glass-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="font-weight-bold mb-0 text-main"><i class="icon-file-text mr-2 text-warning"></i> Recent Reports</h4>
+                    <a href="{% url 'view_reports' %}" class="text-primary font-weight-bold small">View All <i class="icon-chevron-right ml-1"></i></a>
+                </div>
+                <div class="row">
+                    {% if reports %}
+                        {% for report in reports|slice:":4" %}
+                        <div class="col-md-6 col-lg-3 mb-3">
+                            <div class="p-3 rounded h-100" style="background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.03); transition: transform 0.2s;">
+                                <h6 class="text-main font-weight-bold text-truncate mb-2">{{ report.title }}</h6>
+                                <p class="text-muted small mb-3" style="height: 40px; overflow: hidden;">{{ report.description|truncatewords:10 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{ report.created_at|date:"M d" }}</small>
+                                    <a href="#" class="btn btn-link btn-sm p-0 text-primary font-weight-bold">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <i class="icon-file-o text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.1;"></i>
+                                <p class="text-muted small">No reports generated yet.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}
+
+<br><br>
+{% include 'footer.html' %}

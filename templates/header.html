@@ -1,0 +1,169 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Snehasparsham | Healthy Aging</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modern_light.css' %}">
+  
+  <style>
+    .sidebar-user-box {
+        background: rgba(13, 148, 136, 0.05);
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+    }
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-right: 12px;
+        font-size: 1.2rem;
+    }
+    .nav-section-title {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin: 1.5rem 0 0.75rem 1rem;
+        font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Mobile Toggle -->
+<button class="sidebar-toggle" id="sidebarToggle">
+    <i class="icon-menu"></i>
+</button>
+
+<aside class="site-sidebar" id="siteSidebar">
+    <div class="sidebar-logo">
+        <a href="{% url 'home' %}" class="text-decoration-none">
+            <span class="text-primary">Sneha</span>sparsham
+        </a>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="sidebar-user-box">
+            <div class="user-avatar">
+                {{ user.fullname|slice:":1"|upper }}
+            </div>
+            <div class="overflow-hidden">
+                <h6 class="mb-0 text-main font-weight-bold text-truncate">{{ user.fullname }}</h6>
+                <small class="text-muted text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">{{ user.role }}</small>
+            </div>
+        </div>
+    {% endif %}
+
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="{% url 'home' %}" class="sidebar-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <i class="icon-home"></i> <span>Home</span>
+                </a>
+            </li>
+
+            {% if user.is_authenticated %}
+                <!-- ADMIN MENU -->
+                {% if user.role == "admin" %}
+                    <div class="nav-section-title">Main</div>
+                    <li><a href="{% url 'admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"><i class="icon-dashboard"></i> Dashboard</a></li>
+                    <li><a href="{% url 'admin_panel' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_panel' %}active{% endif %}"><i class="icon-users"></i> Admin Panel</a></li>
+                    
+                    <div class="nav-section-title">Operations</div>
+                    <li><a href="{% url 'view_reports' %}" class="sidebar-link {% if request.resolver_match.url_name == 'view_reports' %}active{% endif %}"><i class="icon-file-text-o"></i> Reports</a></li>
+                    <li><a href="{% url 'admin_requests' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_requests' %}active{% endif %}"><i class="icon-check-square-o"></i> Requests</a></li>
+                    <li><a href="{% url 'manage_leave' %}" class="sidebar-link {% if request.resolver_match.url_name == 'manage_leave' %}active{% endif %}"><i class="icon-calendar-minus-o"></i> Leave mgmt</a></li>
+                    
+                    <div class="nav-section-title">Care & Meds</div>
+                    <li><a href="{% url 'add_medicine' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_medicine' %}active{% endif %}"><i class="icon-medkit"></i> Add Medicine</a></li>
+                    <li><a href="{% url 'add_daily_routine' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_daily_routine' %}active{% endif %}"><i class="icon-alarm"></i> Add Routine</a></li>
+                    <li><a href="{% url 'diet_monitor' %}" class="sidebar-link {% if request.resolver_match.url_name == 'diet_monitor' %}active{% endif %}"><i class="icon-cutlery"></i> Diet Monitor</a></li>
+                    <li><a href="{% url 'medicine_stock' %}" class="sidebar-link {% if request.resolver_match.url_name == 'medicine_stock' %}active{% endif %}"><i class="icon-cubes"></i> Med Stock</a></li>
+                    <li><a href="{% url 'admin_payments' %}" class="sidebar-link {% if request.resolver_match.url_name == 'admin_payments' %}active{% endif %}"><i class="icon-money"></i> Payments</a></li>
+                {% endif %}
+
+                <!-- FAMILY MENU -->
+                {% if user.role == "family" %}
+                    <div class="nav-section-title">My Care</div>
+                    <li><a href="{% url 'family_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'family_dashboard' %}active{% endif %}"><i class="icon-heart"></i> My Seniors</a></li>
+
+                    <li><a href="{% url 'family_notifications' %}" class="sidebar-link {% if request.resolver_match.url_name == 'family_notifications' %}active{% endif %}"><i class="icon-bell"></i> Notifications</a></li>
+                    
+                    <div class="nav-section-title">Health Details</div>
+                    <li><a href="{% url 'view_medicine' %}" class="sidebar-link {% if request.resolver_match.url_name == 'view_medicine' %}active{% endif %}"><i class="icon-calendar-check-o"></i> Med Schedule</a></li>
+                    <li><a href="{% url 'medicine_tracking' %}" class="sidebar-link {% if request.resolver_match.url_name == 'medicine_tracking' %}active{% endif %}"><i class="icon-medkit"></i> Med Tracking</a></li>
+                    <li><a href="{% url 'diet_monitor' %}" class="sidebar-link {% if request.resolver_match.url_name == 'diet_monitor' %}active{% endif %}"><i class="icon-cutlery"></i> Diet Monitor</a></li>
+                    <li><a href="{% url 'medicine_stock' %}" class="sidebar-link {% if request.resolver_match.url_name == 'medicine_stock' %}active{% endif %}"><i class="icon-cubes"></i> Med Stock</a></li>
+                    
+                    <div class="nav-section-title">Billing & History</div>
+                    <li><a href="{% url 'payment_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'payment_dashboard' %}active{% endif %}"><i class="icon-credit-card"></i> Payments</a></li>
+                    <li><a href="{% url 'care_history' %}" class="sidebar-link {% if request.resolver_match.url_name == 'care_history' %}active{% endif %}"><i class="icon-schedule"></i> Care History</a></li>
+                {% endif %}
+
+                <!-- SENIOR MENU -->
+                {% if user.role == "senior" %}
+                    <div class="nav-section-title">My Dashboard</div>
+                    <li><a href="{% url 'senior_dashboard' %}" class="sidebar-link {% if request.resolver_match.url_name == 'senior_dashboard' %}active{% endif %}"><i class="icon-dashboard"></i> Dashboard</a></li>
+                    
+                    <div class="nav-section-title">My Health</div>
+                    <li><a href="{% url 'view_medicine' %}" class="sidebar-link {% if request.resolver_match.url_name == 'view_medicine' %}active{% endif %}"><i class="icon-calendar-check-o"></i> Med Schedule</a></li>
+                    <li><a href="{% url 'diet_monitor' %}" class="sidebar-link {% if request.resolver_match.url_name == 'diet_monitor' %}active{% endif %}"><i class="icon-cutlery"></i> Diet Monitor</a></li>
+                    <li><a href="{% url 'medicine_stock' %}" class="sidebar-link {% if request.resolver_match.url_name == 'medicine_stock' %}active{% endif %}"><i class="icon-cubes"></i> Med Stock</a></li>
+                {% endif %}
+
+                <!-- CARETAKER MENU -->
+                {% if user.role == "caretaker" %}
+                    <div class="nav-section-title">Workplace</div>
+                    <li><a href="{% url 'senior_details' %}" class="sidebar-link {% if request.resolver_match.url_name == 'senior_details' %}active{% endif %}"><i class="icon-desktop_windows"></i> Health Monitor</a></li>
+                    {% comment %} <li><a href="{% url 'add_senior' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_senior' %}active{% endif %}"><i class="icon-person_add"></i> Add Senior</a></li> {% endcomment %}
+                    <li><a href="{% url 'view_reports' %}" class="sidebar-link {% if request.resolver_match.url_name == 'view_reports' %}active{% endif %}"><i class="icon-file-text-o"></i> Reports</a></li>
+                    
+                    <div class="nav-section-title">Senior Care</div>
+                    <li><a href="{% url 'view_medicine' %}" class="sidebar-link {% if request.resolver_match.url_name == 'view_medicine' %}active{% endif %}"><i class="icon-calendar-check-o"></i> Med Schedule</a></li>
+                    <li><a href="{% url 'diet_monitor' %}" class="sidebar-link {% if request.resolver_match.url_name == 'diet_monitor' %}active{% endif %}"><i class="icon-cutlery"></i> Diet Monitor</a></li>
+                    <li><a href="{% url 'medicine_stock' %}" class="sidebar-link {% if request.resolver_match.url_name == 'medicine_stock' %}active{% endif %}"><i class="icon-cubes"></i> Med Stock</a></li>
+                    
+                    <div class="nav-section-title">Admin</div>
+                    <li><a href="{% url 'request_leave' %}" class="sidebar-link {% if request.resolver_match.url_name == 'request_leave' %}active{% endif %}"><i class="icon-calendar-times-o"></i> Request Leave</a></li>
+                    <li><a href="{% url 'care_history' %}" class="sidebar-link {% if request.resolver_match.url_name == 'care_history' %}active{% endif %}"><i class="icon-schedule"></i> Care History</a></li>
+                {% endif %}
+
+                <div class="nav-section-title">Account</div>
+                <li><a href="{% url 'profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"><i class="icon-user-circle-o"></i> Profile</a></li>
+                
+                <li class="sidebar-footer mt-4">
+                    <a href="{% url 'logout' %}" class="sidebar-link text-danger">
+                        <i class="icon-sign-out"></i> <span>Logout</span>
+                    </a>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}" class="sidebar-link"><i class="icon-sign-in"></i> Login</a></li>
+                <li><a href="{% url 'register' %}" class="sidebar-link"><i class="icon-person_add"></i> Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</aside>
+
+<main class="main-content">
+
+<script>
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('siteSidebar').classList.toggle('active');
+    });
+</script>

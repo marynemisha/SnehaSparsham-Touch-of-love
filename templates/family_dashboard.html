@@ -1,0 +1,77 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+{% load custom_filters %}
+
+
+<style>
+    .rating-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+    
+    .rating-good { background: #d4edda; color: #155724; }
+    .rating-average { background: #fff3cd; color: #856404; }
+    .rating-poor { background: #f8d7da; color: #721c24; }
+</style>
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h2 class="display-4 text-gradient font-weight-bold mb-3">Senior Care Management</h2>
+            <p class="text-muted">Manage access and view health updates for your loved ones.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for senior in all_seniors %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="glass-card h-100 text-center">
+                    <div class="mb-4 d-inline-block p-3 rounded-circle" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-user-circle text-primary" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold mb-2">{{ senior.fullname }}</h4>
+                    <p class="text-muted small mb-4"><i class="icon-envelope mr-1"></i> {{ senior.email }}</p>
+
+                    {% if senior.id in approved_senior_ids %}
+                        <a href="{% url 'family_senior_detail' senior.id %}"
+                           class="modern-btn btn-block mb-2">
+                            <i class="icon-eye mr-2"></i> View Details
+                        </a>
+                        <!-- Add Feedback Link -->
+                        {% with caretaker=senior_caretakers|dict_get:senior.id %}
+                            {% if caretaker %}
+                                <a href="{% url 'caretaker_feedback' caretaker.id %}" class="btn btn-warning btn-block mb-2 py-2 font-weight-bold" style="border-radius: 12px;">
+                                    <i class="icon-star mr-1"></i> Rate Caretaker
+                                </a>
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <a href="{% url 'request_senior_access' senior.id %}"
+                           class="btn btn-block py-2 text-warning font-weight-bold" style="border: 2px solid rgba(245, 158, 11, 0.2); border-radius: 12px; background: rgba(245, 158, 11, 0.05);">
+                            <i class="icon-lock mr-2"></i> Request Access
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="glass-card py-5">
+                    <i class="icon-folder-open-o text-muted mb-3" style="font-size: 4rem; opacity: 0.2;"></i>
+                    <h5 class="text-main font-weight-bold">No Seniors Available</h5>
+                    <p class="text-muted">Senior profiles assigned to your family will appear here.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}
+
+<br><br>
+{% include 'footer.html' %}

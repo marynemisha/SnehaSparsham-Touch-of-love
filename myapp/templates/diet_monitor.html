@@ -1,0 +1,78 @@
+{% include "header.html" %}
+<div class="dk-page">
+    <div class="container py-5">
+        <h2 class="text-center dk-primary-text mb-4">Diet & Food Monitoring</h2>
+
+        <!-- If Caretaker: Show Add Form -->
+        {% if role == "caretaker" %}
+        <div class="dk-card p-4 mb-5">
+            <h4 class="dk-primary-text mb-4">Log Meal for {{ relation.senior.fullname }}</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label dk-text">Meal Name (e.g., Breakfast, Lunch, Dinner)</label>
+                    <input type="text" name="meal_name" class="form-control dk-input" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label dk-text">Meal Status</label>
+                    <select name="status" class="form-select dk-input" required>
+                        <option value="Given">Given</option>
+                        <option value="Skipped">Skipped</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label dk-text">Special Diet / Notes</label>
+                    <textarea name="special_diet" class="form-control dk-input" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn dk-btn-primary w-100">Add Diet Log</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Display Diet Logs -->
+        <div class="dk-card p-4">
+            <h4 class="dk-primary-text mb-4">Diet History</h4>
+            <div class="table-responsive">
+                <table class="table dk-table text-white">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            {% if role == "admin" or role == "family" %}
+                                <th>Senior Name</th>
+                            {% endif %}
+                            <th>Meal Name</th>
+                            <th>Status</th>
+                            <th>Special Diet</th>
+                            <th>Reported By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meal in meals %}
+                        <tr>
+                            <td>{{ meal.created_at|date:"M d, Y H:i" }}</td>
+                            {% if role == "admin" or role == "family" %}
+                                <td>{{ meal.senior.fullname }}</td>
+                            {% endif %}
+                            <td>{{ meal.meal_name }}</td>
+                            <td>
+                                {% if meal.meal_status == 'Given' %}
+                                    <span class="badge bg-success">Given</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Skipped</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ meal.special_diet|default:"None" }}</td>
+                            <td>{{ meal.caretaker.fullname|default:"System" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No diet records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+

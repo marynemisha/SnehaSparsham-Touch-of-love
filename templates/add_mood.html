@@ -1,0 +1,52 @@
+<br><br><br>        
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-smile-o text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="text-gradient font-weight-bold">How are you feeling?</h2>
+                    <p class="text-muted small">Tracking your mood helps us provide better care.</p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 1px;">Current Mood</label>
+                        <select name="mood" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            <option value="" class="bg-white">-- Select Mood --</option>
+                            <option value="Happy" class="bg-white">Happy</option>
+                            <option value="Sad" class="bg-white">Sad</option>
+                            <option value="Neutral" class="bg-white">Neutral</option>
+                            <option value="Anxious" class="bg-white">Anxious</option>
+                            <option value="Excited" class="bg-white">Excited</option>
+                            <option value="Tired" class="bg-white">Tired</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 1px;">Note (Optional)</label>
+                        <textarea name="note" class="form-control text-main font-weight-bold" rows="4" placeholder="Write something about your day..."></textarea>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-save mr-2"></i> Save Mood
+                    </button>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-link btn-block text-muted font-weight-bold small mt-3">Cancel and Return</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}
+
+<br><br>
+{% include 'footer.html' %}

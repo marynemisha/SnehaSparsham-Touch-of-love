@@ -1,0 +1,120 @@
+
+<br><br><br>
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-4 text-gradient font-weight-bold mb-2">Care Timeline</h1>
+            <p class="text-muted font-weight-bold">Historical journey of care events for <span class="text-primary">{{ senior.fullname }}</span></p>
+        </div>
+    </div>
+
+    <!-- Custom Timeline CSS -->
+    <style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+        list-style: none;
+    }
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 40px;
+        width: 2px;
+        background: rgba(13, 148, 136, 0.1);
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+        padding-left: 80px;
+    }
+    .timeline-icon {
+        position: absolute;
+        left: 20px;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+        z-index: 1;
+    }
+    .timeline-content {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+        transition: 0.3s transform;
+    }
+    .timeline-content:hover {
+        transform: translateX(10px);
+    }
+    .month-divider {
+        position: relative;
+        padding-left: 80px;
+        margin: 40px 0 20px 0;
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .month-divider::before {
+        content: '';
+        position: absolute;
+        left: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 2px;
+        opacity: 0.3;
+    }
+    </style>
+
+    {% if history %}
+        <ul class="timeline mb-5">
+            {% regroup history by date|date:"F Y" as moth_list %}
+            
+            {% for month in moth_list %}
+                <div class="month-divider">{{ month.grouper }}</div>
+                
+                {% for event in month.list %}
+                    <li class="timeline-item">
+                        <div class="timeline-icon">
+                            {{ event.icon }}
+                        </div>
+                        <div class="timeline-content">
+                            <span class="badge badge-primary px-3 mb-3" style="border-radius: 8px; font-size: 0.7rem;">{{ event.type }}</span>
+                            <h5 class="mb-2 text-main font-weight-bold">{{ event.title }}</h5>
+                            <p class="mb-3 text-muted small font-weight-bold">{{ event.description }}</p>
+                            <div class="d-flex align-items-center text-muted tiny font-weight-bold">
+                                <i class="icon-clock-o mr-2"></i> {{ event.date|date:"M d, Y - H:i" }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="glass-card text-center py-5 mb-5">
+            <i class="icon-history text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.1;"></i>
+            <h4 class="text-main font-weight-bold">History is Empty</h4>
+            <p class="text-muted">No care history events have been recorded yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+<br><br>
+{% include 'footer.html' %}

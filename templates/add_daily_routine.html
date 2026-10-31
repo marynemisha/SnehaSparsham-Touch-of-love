@@ -1,0 +1,55 @@
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-calendar-plus-o text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="text-gradient font-weight-bold">Daily Routine</h2>
+                    <p class="text-muted small">Establish a structured daily schedule for senior care and wellness.</p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase">Target Senior</label>
+                        <select name="senior" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            <option value="" class="bg-white">-- Select Senior --</option>
+                            {% for s in seniors %}
+                                <option value="{{ s.id }}" class="bg-white">{{ s.fullname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase">Routine Title</label>
+                        <input type="text" name="title" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="e.g. Morning Exercise" required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase">Details</label>
+                        <textarea name="description" class="form-control text-main font-weight-bold" rows="3" placeholder="Additional instructions..."></textarea>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase">Reminder Time</label>
+                        <input type="time" name="reminder_time" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-plus mr-2"></i> Add Routine
+                    </button>
+                    <a href="javascript:history.back()" class="btn btn-link btn-block text-muted font-weight-bold small mt-3">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

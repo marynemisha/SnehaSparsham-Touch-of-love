@@ -1,0 +1,132 @@
+<br><br><br>
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="display-4 text-gradient font-weight-bold mb-2">Diet Monitoring</h2>
+            <p class="text-muted">Log daily meals and track special dietary requirements.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Log Meal Form -->
+        <div class="col-lg-5 mb-5">
+            {% if role == "caretaker" and all_relations %}
+            <div class="mb-4">
+                <label class="text-muted small font-weight-bold text-uppercase">Monitoring For:</label>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary btn-block dropdown-toggle font-weight-bold" type="button" data-toggle="dropdown" style="border-radius: 12px; height: 50px;">
+                        {{ relation.senior.fullname }}
+                    </button>
+                    <div class="dropdown-menu w-100 shadow" style="border-radius: 12px;">
+                        {% for rel in all_relations %}
+                            <a class="dropdown-item py-2" href="?senior={{ rel.senior.id }}">
+                                <i class="icon-user mr-2"></i> {{ rel.senior.fullname }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if relation or role == "admin" %}
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-cutlery text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold">Save Meal Record</h4>
+                    {% if relation %}
+                        <p class="text-muted small">For <span class="text-primary font-weight-bold">{{ relation.senior.fullname }}</span></p>
+                    {% endif %}
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Meal Name</label>
+                        <input type="text" name="meal_name" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="e.g. Breakfast, Lunch" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Status</label>
+                        <select name="status" class="form-control text-main font-weight-bold" style="height: 50px;">
+                            <option value="Given" class="bg-white">Given</option>
+                            <option value="Skipped" class="bg-white">Skipped</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase">Special Diet / Notes</label>
+                        <textarea name="special_diet" class="form-control text-main font-weight-bold" rows="3" placeholder="Any special instructions..."></textarea>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-plus-circle mr-2"></i> Save Meal
+                    </button>
+                    <p class="text-center mt-3 small text-muted font-weight-bold">Records are stored permanently in care history</p>
+                </form>
+            </div>
+            {% else %}
+            {% comment %} <div class="glass-card text-center py-5 border-dashed">
+                <i class="icon-user-times text-muted mb-3" style="font-size: 3rem; opacity: 0.2;"></i>
+                <h4 class="font-bold text-muted">No Senior Assigned</h4>
+                <p class="text-muted small">Please contact Admin to assign a senior to your care before you can log diet records.</p>
+                <a href="{% url 'senior_details' %}" class="btn btn-outline-primary mt-3" style="border-radius: 10px;">Check My Dashboard</a>
+            </div> {% endcomment %}
+            {% endif %}
+        </div>
+
+        <!-- Meal History -->
+        <div class="col-lg-7 mb-4">
+            <div class="glass-card h-100 p-0 overflow-hidden">
+                <div class="p-4 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <h4 class="text-main font-weight-bold mb-0"><i class="icon-list mr-2 text-primary"></i> Recent Meals</h4>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table light-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Meal</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for meal in meals %}
+                            <tr>
+                                <td class="font-weight-bold text-main">{{ meal.meal_name }}</td>
+                                <td>
+                                    {% if meal.meal_status == "Given" %}
+                                        <span class="badge badge-success px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ meal.meal_status }}</span>
+                                    {% else %}
+                                        <span class="badge badge-warning text-dark px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ meal.meal_status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="small text-muted font-weight-bold">{{ meal.special_diet|default:"-" }}</td>
+                                <td class="small text-muted font-weight-bold">{{ meal.created_at|date:"M d, H:i" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <i class="icon-info-circle text-muted d-block mb-2" style="font-size: 2rem; opacity: 0.1;"></i>
+                                    <span class="text-muted">No meal records found.</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include "footer.html" %}
+

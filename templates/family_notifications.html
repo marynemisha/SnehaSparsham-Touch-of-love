@@ -1,0 +1,132 @@
+<br><br><br>
+{% include 'header.html' %}
+<br><br>
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .notification-container {
+        max-width: 900px;
+        margin: 40px auto;
+    }
+
+    .page-title {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .notification-card {
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        transition: 0.3s;
+        background: white;
+    }
+
+    .notification-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .unread {
+        border-left: 6px solid #0d9488;
+        background-color: rgba(13, 148, 136, 0.05);
+    }
+
+    .read {
+        border-left: 6px solid #28a745;
+        background-color: #f4fdf6;
+    }
+
+    .notification-time {
+        font-size: 12px;
+        color: gray;
+    }
+
+    .mark-btn {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 5px 12px;
+        background-color: #0d9488;
+        color: white;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.3s;
+    }
+
+    .mark-btn:hover {
+        background-color: #2dd4bf;
+        color: white;
+    }
+
+    .badge-read {
+        float: right;
+        background-color: #28a745;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+    }
+
+    .badge-unread {
+        float: right;
+        background-color: #0d9488;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+    }
+
+    .empty-box {
+        text-align: center;
+        padding: 40px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+</style>
+
+<div class="notification-container">
+
+    <h2 class="page-title">🔔 Notifications</h2>
+
+    {% if notifications %}
+        {% for n in notifications %}
+
+            <div class="notification-card {% if not n.is_read %}unread{% else %}read{% endif %}">
+
+                {% if n.is_read %}
+                    <span class="badge-read">Read</span>
+                {% else %}
+                    <span class="badge-unread">New</span>
+                {% endif %}
+
+                <p class="mt-2">{{ n.message }}</p>
+                <small class="notification-time">{{ n.created_at }}</small>
+
+                {% if not n.is_read %}
+                    <br>
+                    <a href="{% url 'mark_notification_read' n.id %}" class="mark-btn">
+                        ✔ Mark as Read
+                    </a>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <div class="empty-box">
+            <h5>📭 No Notifications Yet</h5>
+            <p class="text-muted">New alerts and updates will appear here.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+{% include 'footer.html' %}

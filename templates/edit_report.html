@@ -1,0 +1,91 @@
+<br><br><br>
+{% include 'header.html' %}
+
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .edit-container {
+        max-width: 650px;
+        margin: 60px auto;
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .page-title {
+        text-align: center;
+        color: #f39c12;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px;
+        transition: 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #0d9488;
+        box-shadow: 0 0 8px rgba(13, 148, 136, 0.25);
+    }
+
+    .update-btn {
+        width: 100%;
+        padding: 10px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 15px;
+        background: linear-gradient(45deg, #0d9488, #0f766e);
+        border: none;
+        color: white;
+        transition: 0.3s;
+    }
+
+    .update-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(13, 148, 136, 0.4);
+    }
+</style>
+
+<div class="edit-container">
+
+    <h2 class="page-title">✏ Edit Report</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Report Title</label>
+            <input type="text"
+                   name="title"
+                   value="{{ report.title }}"
+                   class="form-control"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description"
+                      rows="4"
+                      class="form-control"
+                      required>{{ report.description }}</textarea>
+        </div>
+
+        <button type="submit" class="update-btn">
+            ✔ Update Report
+        </button>
+    </form>
+
+</div>
+
+{% include 'footer.html' %}

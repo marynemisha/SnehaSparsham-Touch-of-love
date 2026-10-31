@@ -1,0 +1,64 @@
+<br><br><br>        
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.1);">
+                        <i class="icon-heartbeat text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="text-gradient font-weight-bold">Health Vitals</h2>
+                    <p class="text-muted small">Record current medical statistics for the senior citizen.</p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 1px;">Blood Pressure</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-0 text-muted" style="border-radius: 12px 0 0 12px; height: 50px;"><i class="icon-tint"></i></span>
+                            </div>
+                            <input type="text" name="blood_pressure" class="form-control text-main font-weight-bold border-left-0" style="height: 50px;" placeholder="e.g. 120/80" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 1px;">Heart Rate (BPM)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-0 text-muted" style="border-radius: 12px 0 0 12px; height: 50px;"><i class="icon-heart"></i></span>
+                            </div>
+                            <input type="text" name="heart_rate" class="form-control text-main font-weight-bold border-left-0" style="height: 50px;" placeholder="e.g. 72" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 1px;">Temperature</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-0 text-muted" style="border-radius: 12px 0 0 12px; height: 50px;"><i class="icon-thermometer"></i></span>
+                            </div>
+                            <input type="text" name="temperature" class="form-control text-main font-weight-bold border-left-0" style="height: 50px;" placeholder="e.g. 37°C" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-check-circle mr-2"></i> Save Vitals
+                    </button>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-link btn-block text-muted font-weight-bold small mt-3">Cancel and Return</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}
+
+<br><br>
+{% include 'footer.html' %}

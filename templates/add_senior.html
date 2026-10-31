@@ -1,0 +1,100 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="glass-card p-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-4 text-gradient font-weight-bold mb-3">Add New Senior</h2>
+                    <p class="text-muted">Register a senior citizen to manage their care and health updates.</p>
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                        <i class="icon-exclamation-circle mr-2"></i> {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" enctype="multipart/form-data" class="modern-form">
+                    {% csrf_token %}
+
+                    <!-- Personal Info -->
+                    <h6 class="section-title text-uppercase mb-4" style="border-left: 3px solid var(--primary); padding-left: 15px; color: var(--primary); font-weight: 700;">Personal Information</h6>
+                    
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold mb-2">Full Name</label>
+                        <input type="text" name="fullname" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Full Name" required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small font-weight-bold mb-2">Email (Unique identifier)</label>
+                            <input type="email" name="email" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small font-weight-bold mb-2">Password</label>
+                            <input type="password" name="password" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Set Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold mb-2">Phone Number</label>
+                        <input type="text" name="phone" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Phone Number">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold mb-2">Residential Address</label>
+                        <textarea name="address" class="form-control text-main font-weight-bold" rows="2" placeholder="Residential Address"></textarea>
+                    </div>
+
+                    <!-- Physical Info -->
+                    <h6 class="section-title text-uppercase mb-4" style="border-left: 3px solid var(--primary); padding-left: 15px; color: var(--primary); font-weight: 700;">Health Details</h6>
+                    
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="text-muted small font-weight-bold mb-2">Age</label>
+                            <input type="number" name="age" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Age">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small font-weight-bold mb-2">Weight (kg)</label>
+                            <input type="text" name="weight" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Weight">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="text-muted small font-weight-bold mb-2">Height (cm)</label>
+                            <input type="text" name="height" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="Height">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold mb-2">Blood Group</label>
+                        <select name="blood_group" class="form-control text-main font-weight-bold" style="height: 50px;">
+                            <option value="" class="bg-white">Select Blood Group</option>
+                            <option value="A+" class="bg-white">A+</option>
+                            <option value="A-" class="bg-white">A-</option>
+                            <option value="B+" class="bg-white">B+</option>
+                            <option value="B-" class="bg-white">B-</option>
+                            <option value="O+" class="bg-white">O+</option>
+                            <option value="O-" class="bg-white">O-</option>
+                            <option value="AB+" class="bg-white">AB+</option>
+                            <option value="AB-" class="bg-white">AB-</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold mb-2">Profile Picture</label>
+                        <input type="file" name="profile" class="form-control text-main font-weight-bold" style="padding: 10px;">
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-user-plus mr-2"></i> Register Senior
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

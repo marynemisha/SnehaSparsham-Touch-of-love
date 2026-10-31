@@ -1,0 +1,206 @@
+<br><br><br> <br><br><br> 
+{% include 'header.html' %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .dashboard-container {
+        margin-top: 40px;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-header h2 {
+        color: #343a40;
+        font-weight: 600;
+    }
+
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 20px 25px;
+        width: 280px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 6px;
+    }
+
+    .card ul {
+        list-style: none;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .card ul li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f3f5;
+        color: #495057;
+    }
+
+    .card ul li:last-child {
+        border-bottom: none;
+    }
+
+    /* Count badge */
+    .count-badge {
+        display: inline-block;
+        background-color: #0d9488;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 12px;
+        margin-left: 10px;
+    }
+
+    @media (max-width: 900px) {
+        .cards {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+
+<div class="container dashboard-container">
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Admin Dashboard</h2>
+        <a href="{% url 'assign_caretaker' %}" class="btn btn-primary" style="border-radius: 8px; font-weight: 500;">
+            🤝 Assign Caretaker
+        </a>
+    </div>
+
+    <div class="cards">
+        <!-- Seniors Card -->
+        <div class="card">
+            <h3>Seniors <span class="count-badge">{{ seniors|length }}</span></h3>
+            <ul>
+                {% for senior in seniors %}
+                    <li>{{ senior.fullname }} - {{ senior.email }}</li>
+                {% empty %}
+                    <li>No seniors found</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Caretakers Card -->
+        <div class="card" style="width: 350px;">
+            <h3>Caretakers <span class="count-badge">{{ caretaker_data|length }}</span></h3>
+            <ul>
+                {% for c in caretaker_data %}
+                    <li>
+                        <strong>{{ c.user.fullname }}</strong> 
+                        <span class="badge bg-warning text-dark float-end">⭐ {{ c.avg_rating }} / 5</span>
+                        <div class="mt-2 small text-muted">
+                            {% if c.feedbacks %}
+                                <ul style="max-height: 100px; padding-left: 10px; margin-bottom: 0;">
+                                    {% for f in c.feedbacks %}
+                                        <li>"{{ f.feedback|truncatechars:30 }}" - {{ f.rating }}⭐</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <em>No feedback yet.</em>
+                            {% endif %}
+                        </div>
+                        <div class="mt-2">
+                            <a href="{% url 'admin_view_all_feedback' c.user.id %}" class="btn btn-sm btn-outline-primary" style="border-radius: 8px; font-size: 11px;">
+                                <i class="icon-list mr-1"></i> View All Feedback
+                            </a>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No caretakers found</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Family Members Card -->
+        <div class="card">
+            <h3>Family Members <span class="count-badge">{{ family_members|length }}</span></h3>
+            <ul>
+                {% for f in family_members %}
+                    <li>{{ f.fullname }} - {{ f.email }}</li>
+                {% empty %}
+                    <li>No family members found</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Care Reports Card -->
+        <div class="card" style="width: 350px;">
+            <h3>Care Reports <span class="count-badge">{{ reports|length }}</span></h3>
+            <ul>
+                {% for report in reports|slice:":5" %}
+                    <li>
+                        <strong>{{ report.title }}</strong>
+                        <div class="text-muted small">
+                            {% if report.senior %}
+                                User: {{ report.senior.fullname }}
+                            {% else %}
+                                General Report
+                            {% endif %}
+                            <br>
+                            {{ report.created_at|date:"M d, Y" }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No reports found</li>
+                {% endfor %}
+            </ul>
+            <div class="mt-auto pt-3">
+                <a href="{% url 'view_reports' %}" class="btn btn-block btn-info text-white" style="border-radius: 8px; font-weight: 500;">
+                    <i class="icon-eye mr-1"></i> View All Reports
+                </a>
+            </div>
+        </div>
+
+        <!-- Medicine Schedules Card -->
+        <div class="card" style="width: 350px;">
+            <h3>Medicine Schedules <span class="count-badge">{{ medicines|length }}</span></h3>
+            <ul>
+                {% for m in medicines %}
+                    <li>
+                        <strong>{{ m.medicine_name }}</strong> for {{ m.senior.fullname }}
+                        <div class="text-muted small">
+                            Dosage: {{ m.dosage }} | Time: {{ m.time }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No schedules found</li>
+                {% endfor %}
+            </ul>
+            <div class="mt-auto pt-3">
+                <a href="{% url 'view_medicine' %}" class="btn btn-block btn-warning text-white" style="border-radius: 8px; font-weight: 500; background-color: #f59e0b; border-color: #f59e0b;">
+                    <i class="icon-medkit mr-1"></i> View All Schedules
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}

@@ -1,0 +1,150 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="display-4 text-gradient font-weight-bold mb-2">Payments & Billing</h2>
+            <p class="text-muted">Manage your care subscriptions and view transaction history.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Payment History -->
+        <div class="col-lg-8 mb-4">
+            <div class="glass-card h-100 p-0 overflow-hidden">
+                <div class="p-4 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <h4 class="text-main font-weight-bold mb-0"><i class="icon-history mr-2 text-primary"></i> Payment History</h4>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table light-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Elderly</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                            <tr>
+                                <td class="small text-muted font-weight-bold">{{ payment.date_created|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="small font-weight-bold text-main">{{ payment.payment_type }}</span>
+                                </td>
+                                <td class="text-main font-weight-bold small">{{ payment.senior.fullname }}</td>
+                                <td class="font-weight-bold text-primary">₹{{ payment.amount }}</td>
+                                <td>
+                                    {% if payment.status == "Paid" or payment.status == "Success" %}
+                                        <span class="badge badge-success px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ payment.status }}</span>
+                                    {% else %}
+                                        <span class="badge badge-warning text-dark px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ payment.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <i class="icon-info-circle text-muted d-block mb-2" style="font-size: 2rem; opacity: 0.1;"></i>
+                                    <span class="text-muted">No payment records found.</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Initiate Payment -->
+        <div class="col-lg-4 mb-4">
+            <div class="glass-card shadow-lg" style="border-top: 4px solid var(--primary);">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-credit-card text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold">Initiate Payment</h4>
+                </div>
+
+                <form action="{% url 'process_payment' %}" method="POST" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Caretaker Relation</label>
+                        <select name="relation_id" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            {% for rel in relations %}
+                                <option value="{{ rel.id }}" class="bg-white">{{ rel.senior.fullname }} (🧑‍⚕️ {{ rel.caretaker.fullname }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Amount (INR)</label>
+                        <input type="number" name="amount" step="0.01" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="0.00" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Plan Type</label>
+                        <select name="payment_type" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            <option value="Subscription" class="bg-white">Monthly Subscription</option>
+                            <option value="Visit" class="bg-white">Visit-Based Payment</option>
+                            <option value="Full-Time" class="bg-white">Full-Time Stay Charge</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase">Payment Method</label>
+                        <select name="payment_method" id="payment_method" class="form-control text-main font-weight-bold" style="height: 50px;" required onchange="toggleCardDetails()">
+                            <option value="Cash" class="bg-white">💵 Cash</option>
+                            <option value="UPI" class="bg-white">📱 UPI</option>
+                            <option value="Card" class="bg-white">💳 Card</option>
+                        </select>
+                    </div>
+
+                    <!-- Card Details (Simulated) -->
+                    <div id="card_details" style="display: none;" class="p-4 rounded mb-4" style="background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.05);">
+                        <h6 class="text-primary small font-weight-bold text-uppercase mb-3">Secure Card Entry</h6>
+                        <div class="mb-3">
+                            <input type="text" class="form-control text-main font-weight-bold" style="height: 45px; font-size: 0.9rem;" placeholder="Cardholder Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control text-main font-weight-bold" style="height: 45px; font-size: 0.9rem;" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="text" class="form-control text-main font-weight-bold" style="height: 45px; font-size: 0.9rem;" placeholder="MM/YY">
+                            </div>
+                            <div class="col-6">
+                                <input type="password" class="form-control text-main font-weight-bold" style="height: 45px; font-size: 0.9rem;" placeholder="CVV">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-rocket mr-2"></i> Pay Now
+                    </button>
+                    <p class="text-center mt-3 small text-muted font-weight-bold"><i class="icon-lock mr-1"></i> SSL Encrypted & Secure</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleCardDetails() {
+        var method = document.getElementById("payment_method").value;
+        var cardSection = document.getElementById("card_details");
+        if (method === "Card") {
+            cardSection.style.display = "block";
+        } else {
+            cardSection.style.display = "none";
+        }
+    }
+</script>
+
+<br><br><br>
+{% include 'footer.html' %}

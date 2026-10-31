@@ -1,0 +1,46 @@
+<br><br><br>
+{% include 'header.html' %}
+<style>
+    .success-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        color: white;
+        text-align: center;
+    }
+    .check-icon {
+        font-size: 80px;
+        color: #28a745;
+        margin-bottom: 20px;
+        animation: scaleIn 0.5s ease-out;
+    }
+    @keyframes scaleIn {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="success-card">
+                <div class="check-icon">
+                    <i class="icon-check-circle"></i>
+                </div>
+                <h2 class="mb-3">🎉 Payment Successful!</h2>
+                <p class="lead mb-4 text-muted">Thank you for your payment. Your request has been recorded and is currently being processed by the administration.</p>
+                
+                <div class="d-grid gap-2 col-8 mx-auto">
+                    <a href="{% url 'payment_dashboard' %}" class="btn btn-outline-info py-2">💳 Back to Payment Dashboard</a>
+                    <a href="{% url 'home' %}" class="btn btn-primary py-2 mt-2">🏠 Return Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+{% include 'footer.html' %}

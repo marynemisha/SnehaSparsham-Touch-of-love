@@ -1,0 +1,183 @@
+{% load static %}
+{% include 'header.html' %}
+
+
+    <!-- MAIN -->
+
+
+
+    <!-- HERO SECTION -->
+    <div class="slide-item overlay" style="background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url({% static 'images/medium-shot-senior-couple.jpg' %}); background-size: cover; background-position: center; height: 90vh;">
+      <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <div class="col-lg-7 fade-in">
+            <h1 class="display-3 font-weight-bold text-gradient mb-4">Snehasparsham</h1>
+            <p class="lead text-main mb-5" style="font-size: 1.5rem; letter-spacing: 0.5px; opacity: 0.9;">Providing a "Touch of Love" and professional care for your loved ones in their golden years.</p>
+            <div class="d-flex gap-3">
+              <a href="#services-section" class="modern-btn mr-3">Explore Programs</a>
+              <a href="{% url 'register' %}" class="btn btn-outline-primary px-5 py-3" style="border-radius: 12px; font-weight: 600;">Join Us</a>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+
+    <!-- CARE PROGRAMS SECTION -->
+    <div class="site-section bg-transparent" id="services-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-8 text-center fade-in">
+            <h2 class="text-gradient display-4 font-weight-bold mb-3">Our Care Programs</h2>
+            <p class="text-muted">We provide specialized care programs tailored to the unique needs of senior citizens.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card h-100">
+              <div class="text-center">
+                <span class="text-primary mb-4 d-block" style="font-size: 3rem;"><i class="icon-home"></i></span>
+                <h4 class="text-main font-weight-bold mb-3">Full-Time (Stay-in Care)</h4>
+                <p class="text-muted small">The caretaker will stay with the senior citizen providing 24/7 support.</p>
+                <hr style="border-color: rgba(0,0,0,0.05);">
+                <ul class="list-unstyled text-left small">
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> 24/7 Continuous Support</li>
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> Health Monitoring</li>
+                  <li><i class="icon-check text-primary mr-2"></i> Personalized Care Plan</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card h-100">
+              <div class="text-center">
+                <span class="text-primary mb-4 d-block" style="font-size: 3rem;"><i class="icon-clock-o"></i></span>
+                <h4 class="text-main font-weight-bold mb-3">Part-Time (Time-Based)</h4>
+                <p class="text-muted small">Morning/Evening visits with fixed hours per day for active seniors.</p>
+                <hr style="border-color: rgba(0,0,0,0.05);">
+                <ul class="list-unstyled text-left small">
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> Flexible Visit Schedule</li>
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> Daily Assistance</li>
+                  <li><i class="icon-check text-primary mr-2"></i> Weekly Check-ins</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card h-100">
+              <div class="text-center">
+                <span class="text-primary mb-4 d-block" style="font-size: 3rem;"><i class="icon-calendar"></i></span>
+                <h4 class="text-main font-weight-bold mb-3">Temporary Care</h4>
+                <p class="text-muted small">Short-term contracts for recovery periods (1-3 months).</p>
+                <hr style="border-color: rgba(0,0,0,0.05);">
+                <ul class="list-unstyled text-left small">
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> Post-surgery Recovery</li>
+                  <li class="mb-2"><i class="icon-check text-primary mr-2"></i> Flexible Duration</li>
+                  <li><i class="icon-check text-primary mr-2"></i> Transition Support</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- STATISTICS SECTION -->
+    <div class="site-section bg-transparent fade-in">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="glass-card text-center py-4">
+              <h2 class="text-primary display-4 font-weight-bold mb-0">500+</h2>
+              <p class="text-muted small text-uppercase font-weight-bold">Happy Seniors</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="glass-card text-center py-4">
+              <h2 class="text-primary display-4 font-weight-bold mb-0">150+</h2>
+              <p class="text-muted small text-uppercase font-weight-bold">Care Staff</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4 mb-md-0">
+            <div class="glass-card text-center py-4">
+              <h2 class="text-primary display-4 font-weight-bold mb-0">12</h2>
+              <p class="text-muted small text-uppercase font-weight-bold">Care Programs</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card text-center py-4">
+              <h2 class="text-primary display-4 font-weight-bold mb-0">24/7</h2>
+              <p class="text-muted small text-uppercase font-weight-bold">Support Available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS SECTION -->
+    <div class="site-section bg-transparent" id="testimonials-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-8 text-center fade-in">
+            <h2 class="text-gradient display-4 font-weight-bold mb-3">Heartfelt Stories</h2>
+            <p class="text-muted">Hear from the families who have trusted us with their loved ones.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 mb-4">
+            <div class="glass-card h-100">
+              <p class="text-main font-italic mb-4" style="opacity: 0.8;">"Snehasparsham has been a blessing for my father. The caretakers are professional and truly compassionate."</p>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/person_1.jpg' %}" alt="Image" class="rounded-circle mr-3" style="width: 50px; height: 50px; border: 2px solid var(--primary);">
+                <div>
+                  <h6 class="text-main font-weight-bold mb-0">Elizabeth Anderson</h6>
+                  <small class="text-primary font-weight-bold">Family Member</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <div class="glass-card h-100">
+              <p class="text-main font-italic mb-4" style="opacity: 0.8;">"The medicine tracking and diet monitoring features give me such peace of mind."</p>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/young-determined-armenian-curlyhaired-female-university-student-listen-carefully-asignment-look-confident-ready-task-cross-hands-chest-smiling-selfassured-standing-white-background.jpg' %}" alt="Image" class="rounded-circle mr-3" style="width: 50px; height: 50px; border: 2px solid var(--primary);">
+                <div>
+                  <h6 class="text-main font-weight-bold mb-0">John Doe</h6>
+                  <small class="text-primary font-weight-bold">Family Member</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <div class="glass-card h-100">
+              <p class="text-main font-italic mb-4" style="opacity: 0.8;">"A world-class facility with a heart of gold. I recommend them to everyone."</p>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/picture-young-woman-showing-opened-palms.jpg' %}" alt="Image" class="rounded-circle mr-3" style="width: 50px; height: 50px; border: 2px solid var(--primary);">
+                <div>
+                  <h6 class="text-main font-weight-bold mb-0">Sarah Jenkins</h6>
+                  <small class="text-primary font-weight-bold">Medical Professional</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GET IN TOUCH SECTION -->
+    <div class="site-section bg-transparent" id="contact-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="glass-card text-center fade-in border-primary">
+              <h2 class="text-gradient display-4 font-weight-bold mb-4">Start Your Care Journey Today</h2>
+              <p class="text-main mb-5 px-lg-5" style="opacity: 0.8;">Whether you're looking for full-time support or just occasional help, we're here to provide the touch of love your family deserves.</p>
+              <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'register' %}" class="modern-btn mr-3">Create an Account</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary px-5 py-3" style="border-radius: 12px; font-weight: 600;">Sign In</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% include 'footer.html' %}

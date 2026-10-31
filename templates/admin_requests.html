@@ -1,0 +1,51 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-4 text-gradient font-weight-bold mb-2">Access Requests</h1>
+            <p class="text-muted font-weight-bold">Review and authorize family members to view senior citizen profiles.</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            {% for req in requests %}
+                <div class="glass-card mb-4 transform-hover">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="p-2 rounded-circle mr-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                                    <i class="icon-users text-primary"></i>
+                                </div>
+                                <h5 class="text-main font-weight-bold mb-0">{{ req.family.fullname }}</h5>
+                            </div>
+                            <p class="mb-0 text-muted small font-weight-bold">
+                                Requesting access to: <span class="text-primary font-weight-bold">{{ req.senior.fullname }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                            <a href="{% url 'approve_request' req.id %}" class="modern-btn px-4 py-2">
+                                <i class="icon-check-circle mr-1"></i> Approve Access
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="glass-card text-center py-5">
+                    <div class="mb-4">
+                        <i class="icon-check-square-o text-success" style="font-size: 4rem; opacity: 0.1;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold">All Caught Up!</h4>
+                    <p class="text-muted">There are no pending senior citizen access requests at this time.</p>
+                    <a href="{% url 'admin_dashboard' %}" class="modern-btn px-5 mt-3">Admin Dashboard</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

@@ -1,0 +1,105 @@
+<br><br><br>
+{% include "header.html" %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-7">
+            <h1 class="display-4 text-gradient font-weight-bold mb-2">Medicine Inventory</h1>
+            <p class="text-muted font-weight-bold">Monitor stock levels and manage medication supplies for senior care.</p>
+        </div>
+        <div class="col-md-5 text-md-right">
+            <div class="d-inline-block glass-card py-3 px-4 mb-0" style="border-top: 4px solid var(--primary);">
+                <h6 class="text-primary small font-weight-bold text-uppercase mb-1">Stock Items</h6>
+                <h2 class="text-main font-weight-bold mb-0">{{ stocks|length }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if role == 'admin' %}
+        <!-- Add Stock Form -->
+        <div class="col-md-5 mb-5">
+            <div class="glass-card shadow-lg h-100">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-medkit text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold">Update Inventory</h4>
+                </div>
+                
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label class="text-muted small font-weight-bold text-uppercase">Medicine Name</label>
+                        <input type="text" name="medicine_name" class="form-control text-main font-weight-bold" style="height: 50px;" required placeholder="Enter medicine name">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label class="text-muted small font-weight-bold text-uppercase">Quantity</label>
+                            <input type="number" name="quantity" class="form-control text-main font-weight-bold" style="height: 50px;" required placeholder="0">
+                        </div>
+                        <div class="col-6">
+                            <label class="text-muted small font-weight-bold text-uppercase">Low Limit</label>
+                            <input type="number" name="low_stock_limit" class="form-control text-main font-weight-bold" style="height: 50px;" value="5" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="modern-btn btn-block py-3 mt-4">
+                        <i class="icon-refresh mr-2"></i> Update Stock
+                    </button>
+                    <p class="text-center mt-3 small text-muted font-weight-bold"><i class="icon-info-circle mr-1"></i> Admin exclusive action</p>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Current Stock List -->
+        <div class="{% if role == 'admin' %}col-md-7{% else %}col-md-12{% endif %} mb-5">
+            <div class="glass-card p-0 overflow-hidden h-100">
+                <div class="p-4 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <h4 class="text-main font-weight-bold mb-0">Current Inventory</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table light-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Quantity</th>
+                                <th>Last Updated</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stock in stocks %}
+                            <tr {% if stock.is_low %}style="background: rgba(220, 38, 38, 0.05);"{% endif %}>
+                                <td>
+                                    <div class="font-weight-bold text-main">{{ stock.medicine_name }}</div>
+                                </td>
+                                <td class="font-weight-bold {% if stock.is_low %}text-danger{% else %}text-main{% endif %}">{{ stock.quantity }} Units</td>
+                                <td class="text-muted font-weight-bold small">{{ stock.updated_at|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if stock.is_low %}
+                                        <span class="badge badge-danger px-3 shadow-sm" style="border-radius: 8px;"><i class="icon-warning mr-1"></i> Low Stock</span>
+                                    {% else %}
+                                        <span class="badge badge-success px-3 shadow-sm" style="border-radius: 8px;">Sufficient</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <i class="icon-dropbox text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.1;"></i>
+                                    <span class="text-muted">No medicines in inventory.</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include "footer.html" %}

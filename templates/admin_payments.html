@@ -1,0 +1,87 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-7">
+            <h1 class="display-4 text-gradient font-weight-bold mb-2">Salary & Billing</h1>
+            <p class="text-muted font-weight-bold">Review and approve payments from families to release caretaker salaries.</p>
+        </div>
+        <div class="col-md-5 text-md-right">
+            <div class="d-inline-block glass-card py-3 px-4 mb-0" style="border-top: 4px solid var(--primary);">
+                <h6 class="text-primary small font-weight-bold text-uppercase mb-1">Total Records</h6>
+                <h2 class="text-main font-weight-bold mb-0">{{ payments|length }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table light-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Family</th>
+                        <th>Caretaker</th>
+                        <th>Senior</th>
+                        <th>Care Plan</th>
+                        <th>Method</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Update Approval</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr>
+                        <td>
+                            <div class="font-weight-bold text-main">{{ payment.family.fullname }}</div>
+                            <small class="text-muted font-weight-bold">Family Member</small>
+                        </td>
+                        <td>
+                            <div class="text-main font-weight-bold">{{ payment.caretaker.fullname|default:"Not Assigned" }}</div>
+                        </td>
+                        <td class="text-main font-weight-bold small">{{ payment.senior.fullname }}</td>
+                        <td><span class="small font-weight-bold text-main">{{ payment.payment_type }}</span></td>
+                        <td>
+                            <span class="badge badge-info px-3" style="border-radius: 8px; background: rgba(14, 165, 233, 0.1); color: #0369a1;">{{ payment.payment_method }}</span>
+                        </td>
+                        <td class="font-weight-bold text-primary">₹{{ payment.amount }}</td>
+                        <td>
+                            {% if payment.status == "Paid" %}
+                                <span class="badge badge-success px-3" style="border-radius: 8px;">{{ payment.status }}</span>
+                            {% elif payment.status == "Approved" %}
+                                <span class="badge badge-info px-3" style="border-radius: 8px;">{{ payment.status }}</span>
+                            {% else %}
+                                <span class="badge badge-warning text-dark px-3" style="border-radius: 8px;">{{ payment.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="POST" class="d-flex align-items-center">
+                                {% csrf_token %}
+                                <input type="hidden" name="payment_id" value="{{ payment.id }}">
+                                <select name="status" class="form-control text-main font-weight-bold mr-2" style="height: 35px; font-size: 0.85rem; border-radius: 8px; min-width: 100px;">
+                                    <option value="Pending" class="bg-white" {% if payment.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Approved" class="bg-white" {% if payment.status == 'Approved' %}selected{% endif %}>Approved</option>
+                                    <option value="Paid" class="bg-white" {% if payment.status == 'Paid' %}selected{% endif %}>Paid</option>
+                                </select>
+                                <button class="modern-btn btn-sm px-3" style="height: 35px; border-radius: 8px;">Apply</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5">
+                            <i class="icon-money text-muted d-block mb-3" style="font-size: 3rem; opacity: 0.1;"></i>
+                            <span class="text-muted">No pending payment approvals.</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

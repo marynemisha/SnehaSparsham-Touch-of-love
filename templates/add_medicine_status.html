@@ -1,0 +1,45 @@
+<br><br><br>        
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.1);">
+                        <i class="icon-check-square-o text-success" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h2 class="text-gradient font-weight-bold">Medicine Status</h2>
+                    <p class="text-muted small">Log if the scheduled medication was successfully administered.</p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group mb-4">
+                        <label class="text-muted small font-weight-bold text-uppercase">Medicine Name</label>
+                        <input type="text" name="medicine_name" value="{{ initial_medicine }}" class="form-control text-main font-weight-bold" style="height: 50px;" placeholder="e.g. Paracetamol" required>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase">Administration Status</label>
+                        <select name="status" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            <option value="" class="bg-white">-- Select Status --</option>
+                            <option value="Taken" class="bg-white">✔ Taken</option>
+                            <option value="Missed" class="bg-white">❌ Missed</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-check mr-2"></i> Save Status
+                    </button>
+                    <a href="javascript:history.back()" class="btn btn-link btn-block text-muted font-weight-bold small mt-3">Go Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

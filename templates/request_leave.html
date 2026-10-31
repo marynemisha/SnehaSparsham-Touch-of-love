@@ -1,0 +1,110 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="display-4 text-gradient font-weight-bold mb-2">Leave Management</h2>
+            <p class="text-muted font-weight-bold">Submit leave requests and track administrative approvals.</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Request Form -->
+        <div class="col-lg-5 mb-5">
+            <div class="glass-card shadow-lg" style="border-top: 4px solid var(--primary);">
+                <div class="text-center mb-4">
+                    <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(13, 148, 136, 0.05); border: 1px solid rgba(13, 148, 136, 0.1);">
+                        <i class="icon-calendar-plus-o text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h4 class="text-main font-weight-bold">Request Leave</h4>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small font-weight-bold text-uppercase">Start Date</label>
+                            <input type="date" name="start_date" class="form-control text-main font-weight-bold" style="height: 45px;" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small font-weight-bold text-uppercase">End Date</label>
+                            <input type="date" name="end_date" class="form-control text-main font-weight-bold" style="height: 45px;" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-5">
+                        <label class="text-muted small font-weight-bold text-uppercase">Reason for Absence</label>
+                        <select name="reason" class="form-control text-main font-weight-bold" style="height: 50px;" required>
+                            <option value="" class="bg-white" disabled selected>-- Select Reason --</option>
+                            <option value="Health" class="bg-white">⚕️ Health Issue</option>
+                            <option value="Emergency" class="bg-white">🚨 Personal Emergency</option>
+                            <option value="Leave" class="bg-white">📅 Planned Leave</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="modern-btn btn-block py-3">
+                        <i class="icon-send mr-2"></i> Submit Request
+                    </button>
+                    <p class="text-center mt-3 small text-muted font-weight-bold"><i class="icon-info-circle mr-1"></i> Requires Admin verification</p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Request History -->
+        <div class="col-lg-12 mb-4">
+            <div class="glass-card p-0 overflow-hidden">
+                <div class="p-4 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.02); border-bottom: 1px solid rgba(0,0,0,0.05);">
+                    <h4 class="text-main font-weight-bold mb-0"><i class="icon-list-ul mr-2 text-primary"></i> Leave History</h4>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table light-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Period</th>
+                                <th>Reason</th>
+                                <th>Senior</th>
+                                <th>Status</th>
+                                <th>Substitute</th>
+                                <th>Admin Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for leave in leave_history %}
+                            <tr>
+                                <td class="small text-muted font-weight-bold">{{ leave.start_date|date:"M d" }} - {{ leave.end_date|date:"M d, Y" }}</td>
+                                <td class="font-weight-bold text-main">{{ leave.get_reason_display }}</td>
+                                <td class="text-main font-weight-bold small">{{ leave.senior.fullname|default:"N/A" }}</td>
+                                <td>
+                                    {% if leave.status == "Approved" %}
+                                        <span class="badge badge-success px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ leave.status }}</span>
+                                    {% elif leave.status == "Rejected" %}
+                                        <span class="badge badge-danger px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ leave.status }}</span>
+                                    {% else %}
+                                        <span class="badge badge-warning text-dark px-3" style="border-radius: 8px; font-size: 0.75rem;">{{ leave.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-main font-weight-bold small">{{ leave.substitute_caretaker.fullname|default:"Not Assigned" }}</td>
+                                <td><small class="text-muted font-weight-bold">{{ leave.admin_note|default:"-"|truncatechars:30 }}</small></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="icon-calendar-times-o text-muted d-block mb-2" style="font-size: 3rem; opacity: 0.1;"></i>
+                                    <span class="text-muted">No previous leave requests.</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+{% include 'footer.html' %}

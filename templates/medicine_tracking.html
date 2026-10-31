@@ -1,0 +1,250 @@
+<br><br><br>
+{% include "header.html" %}
+
+<div class="medicine-page">
+
+<div class="medicine-card">
+
+<h2 class="page-title">
+💊 Medicine Tracking
+</h2>
+
+{% if role == 'caretaker' %}
+
+<div class="form-card">
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="form-group">
+
+<label>Medicine Name</label>
+
+<input type="text" name="medicine_name" placeholder="Enter medicine name" required>
+
+</div>
+
+<div class="form-group">
+
+<label>Status</label>
+
+<select name="status">
+
+<option value="Taken">Taken</option>
+<option value="Not Taken">Not Taken</option>
+
+</select>
+
+</div>
+
+<button type="submit" class="submit-btn">
+Add Record
+</button>
+
+</form>
+
+</div>
+
+{% endif %}
+
+<div class="table-card">
+
+<h3 class="section-title">
+Medicine Records
+</h3>
+
+<table class="medicine-table">
+
+<thead>
+
+<tr>
+<th>Medicine</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for r in records %}
+
+<tr>
+
+<td class="med-name">
+💊 {{r.medicine_name}}
+</td>
+
+<td>
+
+{% if r.status == "Taken" %}
+
+<span class="status taken">Taken</span>
+
+{% else %}
+
+<span class="status nottaken">Not Taken</span>
+
+{% endif %}
+
+</td>
+
+<td class="date">
+{{r.created_at|date:"M d, Y H:i"}}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<style>
+
+/* PAGE */
+
+.medicine-page{
+padding:40px;
+display:flex;
+justify-content:center;
+}
+
+
+/* MAIN CARD */
+
+.medicine-card{
+width:900px;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+
+/* TITLE */
+
+.page-title{
+margin-bottom:30px;
+font-weight:700;
+color:#333;
+}
+
+
+/* FORM */
+
+.form-card{
+background:#f8fafc;
+padding:20px;
+border-radius:10px;
+margin-bottom:30px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.form-group label{
+display:block;
+font-size:14px;
+margin-bottom:5px;
+font-weight:600;
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+
+/* BUTTON */
+
+.submit-btn{
+background:#6366f1;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+.submit-btn:hover{
+background:#4f46e5;
+}
+
+
+/* TABLE */
+
+.table-card{
+margin-top:20px;
+}
+
+.section-title{
+margin-bottom:15px;
+color:#444;
+}
+
+.medicine-table{
+width:100%;
+border-collapse:collapse;
+}
+
+.medicine-table th{
+background:#f1f5f9;
+padding:12px;
+text-align:left;
+font-size:13px;
+text-transform:uppercase;
+}
+
+.medicine-table td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+.medicine-table tr:hover{
+background:#f9fafb;
+}
+
+
+/* STATUS BADGES */
+
+.status{
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+}
+
+.taken{
+background:#dcfce7;
+color:#16a34a;
+}
+
+.nottaken{
+background:#fee2e2;
+color:#dc2626;
+}
+
+.med-name{
+font-weight:600;
+}
+
+.date{
+color:#666;
+font-size:13px;
+}
+
+</style>

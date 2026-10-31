@@ -1,0 +1,211 @@
+<br><br><br>
+{% include 'header.html' %}
+{% load static %}
+
+<div class="container mt-5 pt-5 fade-in">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="display-4 text-gradient font-weight-bold mb-3">Senior Health Monitor</h2>
+            <p class="text-muted">Detailed monitoring of daily activities, health vitals, and care logs.</p>
+        </div>
+    </div>
+
+    {% for data in seniors_data %}
+    <div class="glass-card mb-5 p-0 overflow-hidden">
+        <!-- Senior Header -->
+        <div class="p-4 d-flex justify-content-between align-items-center" style="background: rgba(13, 148, 136, 0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-white shadow-sm p-3 mr-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 1px solid rgba(0,0,0,0.05);">
+                    <i class="icon-user text-primary" style="font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                    <h4 class="text-main font-weight-bold mb-0">{{ data.senior.fullname }}</h4>
+                    <small class="text-muted font-weight-bold">ID: #{{ data.senior.id|stringformat:"04d" }}</small>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{% url 'add_vital' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 8px;">🩺 Vital</a>
+                <a href="{% url 'add_mood' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(245, 158, 11, 0.1); color: #b45309; border-radius: 8px;">😊 Mood</a>
+                <a href="{% url 'add_medicine_status' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(16, 185, 129, 0.1); color: #065f46; border-radius: 8px;">💊 Medicine</a>
+                <a href="{% url 'diet_monitor' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(13, 202, 240, 0.1); color: #0891b2; border-radius: 8px;">🍲 Diet</a>
+                <a href="{% url 'add_visit' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(107, 114, 128, 0.1); color: #374151; border-radius: 8px;">📋 Visit</a>
+                <a href="{% url 'daily_reminders' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(99, 102, 241, 0.1); color: #4f46e5; border-radius: 8px;">⏰ Reminders</a>
+                <a href="{% url 'trigger_emergency' %}?senior={{ data.senior.id }}" class="btn btn-sm px-3 font-weight-bold" style="background: rgba(220, 38, 38, 0.1); color: #dc2626; border-radius: 8px;">🚨 Emergency</a>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="row">
+                <!-- Health Vitals -->
+                <div class="col-lg-6 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-pulse mr-2 text-primary"></i> Health Vitals</h5>
+                        {% for v in data.vitals %}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-light">
+                                <div>
+                                    <span class="text-main small font-weight-bold">BP:</span> <span class="text-primary small font-weight-bold">{{ v.blood_pressure }}</span>
+                                    <span class="mx-2 opacity-25">|</span>
+                                    <span class="text-main small font-weight-bold">HR:</span> <span class="text-danger small font-weight-bold">{{ v.heart_rate }}</span>
+                                    <span class="mx-2 opacity-25">|</span>
+                                    <span class="text-main small font-weight-bold">Temp:</span> <span class="text-warning small font-weight-bold">{{ v.temperature }}</span>
+                                </div>
+                                <small class="text-muted" style="font-size: 0.7rem;">{{ v.created_at|date:"d M, H:i" }}</small>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small py-3">No vitals recorded.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Mood Updates -->
+                <div class="col-lg-6 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-smile-o mr-2 text-warning"></i> Mood Updates</h5>
+                        {% for m in data.moods %}
+                            <div class="d-flex justify-content-between py-2 border-bottom border-light">
+                                <div>
+                                    <span class="badge badge-warning text-dark px-2 mb-1" style="border-radius: 6px; font-size: 0.7rem;">{{ m.mood }}</span>
+                                    <p class="text-main small mb-0">{{ m.note }}</p>
+                                </div>
+                                <small class="text-muted" style="font-size: 0.7rem;">{{ m.created_at|date:"d M, H:i" }}</small>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small py-3">No mood updates.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Today's Reminders -->
+                <div class="col-lg-6 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-clock-o mr-2 text-primary"></i> Today's Reminders</h5>
+                        {% for reminder in data.medicine_reminders %}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-light">
+                                <div>
+                                    <span class="text-main font-weight-bold small">{{ reminder.name }}</span>
+                                    <small class="text-muted d-block">{{ reminder.timing }} at {{ reminder.time|time:"H:i" }} | {{ reminder.dosage }}</small>
+                                </div>
+                                {% if reminder.is_taken %}
+                                    <span class="badge badge-success px-3" style="border-radius: 20px; font-size: 0.7rem;">✔ Taken</span>
+                                {% elif reminder.is_overdue %}
+                                    <div class="text-right">
+                                        <span class="badge badge-danger px-3 d-block mb-1" style="border-radius: 20px; font-size: 0.6rem;">⚠ OVERDUE</span>
+                                        <a href="{% url 'add_medicine_status' %}?senior={{ data.senior.id }}&medicine={{ reminder.name }}" class="btn btn-sm px-2 font-weight-bold" style="background: rgba(239, 68, 68, 0.1); color: #dc2626; border-radius: 6px; font-size: 0.7rem;">Mark Taken</a>
+                                    </div>
+                                {% else %}
+                                    <a href="{% url 'add_medicine_status' %}?senior={{ data.senior.id }}&medicine={{ reminder.name }}" class="btn btn-sm px-2 font-weight-bold" style="background: rgba(13, 148, 136, 0.1); color: var(--primary); border-radius: 6px; font-size: 0.7rem;">Mark Taken</a>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small py-3">No medicines scheduled for today.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Medicine History -->
+                <div class="col-lg-6 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-history mr-2 text-success"></i> Recent Medicine Log</h5>
+                        {% for med in data.medicine_history %}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-light">
+                                <span class="text-main font-weight-bold small">{{ med.medicine_name }}</span>
+                                <div class="text-right">
+                                    {% if med.status == "Taken" %}
+                                        <span class="badge badge-success px-3" style="border-radius: 20px; font-size: 0.6rem;">Taken</span>
+                                    {% else %}
+                                        <span class="badge badge-danger px-3" style="border-radius: 20px; font-size: 0.6rem;">{{ med.status }}</span>
+                                    {% endif %}
+                                    <small class="text-muted d-block" style="font-size: 0.6rem;">{{ med.created_at|date:"d M, H:i" }}</small>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small py-3">No history available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Diet History -->
+                <div class="col-lg-12 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-cutlery mr-2 text-warning"></i> Diet History</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm light-table mb-0" style="font-size: 0.85rem;">
+                                <thead>
+                                    <tr class="text-muted">
+                                        <th class="border-0">Meal</th>
+                                        <th class="border-0">Status</th>
+                                        <th class="border-0">Notes</th>
+                                        <th class="border-0 text-right">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for diet in data.diet_plans %}
+                                    <tr class="border-bottom border-light">
+                                        <td class="font-weight-bold py-2">{{ diet.meal_name }}</td>
+                                        <td class="py-2">
+                                            {% if diet.meal_status == "Given" %}
+                                                <span class="text-success">● Given</span>
+                                            {% else %}
+                                                <span class="text-warning">● Skipped</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-muted py-2">{{ diet.special_diet|default:"-"|truncatechars:30 }}</td>
+                                        <td class="text-muted text-right py-2">{{ diet.created_at|date:"d M, H:i" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-3 text-muted">No meal history.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visit Logs -->
+                <div class="col-lg-6 mb-4">
+                    <div class="p-3 rounded h-100" style="background: white; border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                        <h5 class="text-main font-weight-bold mb-3 d-flex align-items-center"><i class="icon-calendar-check-o mr-2 text-info"></i> Visit Logs</h5>
+                        {% for visit in data.visits %}
+                            <div class="py-2 border-bottom border-light">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-main font-weight-bold small">{{ visit.visitor_name }}</span>
+                                    <small class="text-muted" style="font-size: 0.7rem;">{{ visit.created_at|date:"d M" }}</small>
+                                </div>
+                                <p class="text-muted small mb-0">{{ visit.visit_note }}</p>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small py-3">No visit logs available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Emergency Alerts -->
+                <div class="col-12">
+                    <div class="p-3 rounded" style="background: rgba(239, 68, 68, 0.02); border: 1px solid rgba(239, 68, 68, 0.1);">
+                        <h5 class="text-danger font-weight-bold mb-3 d-flex align-items-center"><i class="icon-warning mr-2"></i> Emergency Alerts</h5>
+                        {% for e in data.emergencies %}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-danger" style="border-bottom-style: dotted !important;">
+                                <span class="text-danger font-weight-bold small">{{ e.message }}</span>
+                                <small class="text-muted">{{ e.created_at|date:"d M Y H:i" }}</small>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small mb-0">No active emergency alerts recorded.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <div class="glass-card text-center py-5">
+            <i class="icon-user-times text-muted d-block mb-3" style="font-size: 4rem; opacity: 0.1;"></i>
+            <h5 class="text-main font-weight-bold">No Seniors Assigned</h5>
+            <p class="text-muted mb-0">Seniors assigned to your care will appear here once matched by Admin.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<br><br>
+{% include 'footer.html' %}
